@@ -1,0 +1,24 @@
+{
+    "name": "QuantumDemoInput",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f6fa0c2f8b9a9f64897d3351666f3d66",
+        "GUID:5d82202959c2f144ea95e134645b6833",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "1.0",
+            "define": "QUANTUM_ENABLE_INPUTSYSTEM"
+        }
+    ],
+    "noEngineReferences": false
+}
