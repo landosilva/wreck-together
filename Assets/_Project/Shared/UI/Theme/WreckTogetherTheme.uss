@@ -1,0 +1,164 @@
+/* === Wreck Together — Base Theme === */
+
+:root {
+    --wt-bg-primary: rgb(24, 24, 32);
+    --wt-bg-secondary: rgb(36, 36, 48);
+    --wt-bg-panel: rgba(0, 0, 0, 0.85);
+    --wt-accent: rgb(255, 170, 0);
+    --wt-accent-hover: rgb(255, 200, 60);
+    --wt-text-primary: rgb(240, 240, 240);
+    --wt-text-secondary: rgb(160, 160, 180);
+    --wt-danger: rgb(220, 60, 60);
+    --wt-success: rgb(60, 200, 100);
+    --wt-font-size-sm: 14px;
+    --wt-font-size-md: 18px;
+    --wt-font-size-lg: 28px;
+    --wt-font-size-xl: 48px;
+    --wt-border-radius: 8px;
+    --wt-spacing-sm: 8px;
+    --wt-spacing-md: 16px;
+    --wt-spacing-lg: 32px;
+}
+
+/* === Layout === */
+
+.wt-screen {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--wt-bg-primary);
+}
+
+.wt-panel {
+    background-color: var(--wt-bg-panel);
+    border-radius: var(--wt-border-radius);
+    padding: var(--wt-spacing-lg);
+    align-items: center;
+}
+
+/* === Typography === */
+
+.wt-title {
+    font-size: var(--wt-font-size-xl);
+    color: var(--wt-accent);
+    -unity-font-style: bold;
+    margin-bottom: var(--wt-spacing-lg);
+}
+
+.wt-subtitle {
+    font-size: var(--wt-font-size-lg);
+    color: var(--wt-text-primary);
+    -unity-font-style: bold;
+    margin-bottom: var(--wt-spacing-md);
+}
+
+.wt-label {
+    font-size: var(--wt-font-size-md);
+    color: var(--wt-text-primary);
+}
+
+.wt-label--secondary {
+    font-size: var(--wt-font-size-sm);
+    color: var(--wt-text-secondary);
+}
+
+/* === Buttons === */
+
+.wt-button {
+    font-size: var(--wt-font-size-md);
+    -unity-font-style: bold;
+    color: var(--wt-bg-primary);
+    background-color: var(--wt-accent);
+    border-width: 0;
+    border-radius: var(--wt-border-radius);
+    padding: 12px 32px;
+    margin: var(--wt-spacing-sm);
+    min-width: 200px;
+    -unity-text-align: middle-center;
+    transition-duration: 0.15s;
+    cursor: link;
+}
+
+.wt-button:hover {
+    background-color: var(--wt-accent-hover);
+    scale: 1.03;
+}
+
+.wt-button:active {
+    scale: 0.97;
+}
+
+.wt-button--secondary {
+    background-color: var(--wt-bg-secondary);
+    color: var(--wt-text-primary);
+    border-width: 2px;
+    border-color: var(--wt-text-secondary);
+}
+
+.wt-button--secondary:hover {
+    border-color: var(--wt-accent);
+    color: var(--wt-accent);
+}
+
+.wt-button--danger {
+    background-color: var(--wt-danger);
+    color: var(--wt-text-primary);
+}
+
+/* === Inputs === */
+
+.wt-textfield {
+    font-size: var(--wt-font-size-md);
+    margin: var(--wt-spacing-sm);
+}
+
+.wt-textfield > .unity-text-field__input {
+    background-color: var(--wt-bg-secondary);
+    color: var(--wt-text-primary);
+    border-color: var(--wt-text-secondary);
+    border-radius: var(--wt-border-radius);
+    padding: 8px 12px;
+}
+
+.wt-textfield > .unity-text-field__input:focus {
+    border-color: var(--wt-accent);
+}
+
+/* === Slider === */
+
+.wt-slider {
+    margin: var(--wt-spacing-sm);
+}
+
+/* === Overlay === */
+
+.wt-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+}
+
+/* === Player List === */
+
+.wt-player-item {
+    font-size: var(--wt-font-size-md);
+    color: var(--wt-text-primary);
+    padding: var(--wt-spacing-sm) var(--wt-spacing-md);
+    background-color: var(--wt-bg-secondary);
+    border-radius: 4px;
+    margin: 2px 0;
+}
+
+/* === Timer === */
+
+.wt-timer {
+    font-size: 64px;
+    color: var(--wt-accent);
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+}

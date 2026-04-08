@@ -1,0 +1,12 @@
+input {
+    FPVector2 Movement;
+}
+
+global {
+    FP MatchTimer;
+    Boolean MatchOver;
+}
+
+component WreckPlayerLink {
+    player_ref PlayerRef;
+}

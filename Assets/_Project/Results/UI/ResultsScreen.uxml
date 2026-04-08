@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss" />
+    <ui:VisualElement class="wt-screen">
+        <ui:VisualElement class="wt-panel">
+            <ui:Label name="result-label" text="Time's Up!" class="wt-title" />
+            <ui:Label name="score-label" text="Score: 0" class="wt-subtitle" />
+            <ui:Button name="replay-button" text="PLAY AGAIN" class="wt-button" />
+            <ui:Button name="menu-button" text="MAIN MENU" class="wt-button wt-button--secondary" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss" />
+    <ui:VisualElement class="wt-screen">
+        <ui:VisualElement class="wt-panel">
+            <ui:Label text="WRECK TOGETHER" class="wt-title" />
+            <ui:Button name="play-button" text="PLAY" class="wt-button" />
+            <ui:Button name="settings-button" text="SETTINGS" class="wt-button wt-button--secondary" />
+            <ui:Button name="quit-button" text="QUIT" class="wt-button wt-button--secondary" />
+        </ui:VisualElement>
+
+        <!-- Settings Overlay -->
+        <ui:VisualElement name="settings-overlay" class="wt-overlay">
+            <ui:VisualElement class="wt-panel" style="min-width: 500px;">
+                <ui:Label text="SETTINGS" class="wt-subtitle" />
+
+                <ui:Label text="Audio" class="wt-label" style="margin-top: 16px;" />
+                <ui:Slider name="volume-slider" label="Master Volume" low-value="0" high-value="1" value="1" class="wt-slider" />
+
+                <ui:Label text="Video" class="wt-label" style="margin-top: 16px;" />
+                <ui:Label text="Coming soon..." class="wt-label--secondary" />
+
+                <ui:Label text="Controls" class="wt-label" style="margin-top: 16px;" />
+                <ui:Label text="Coming soon..." class="wt-label--secondary" />
+
+                <ui:Button name="settings-back-button" text="BACK" class="wt-button wt-button--secondary" style="margin-top: 24px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

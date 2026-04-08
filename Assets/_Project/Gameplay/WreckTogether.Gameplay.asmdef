@@ -1,0 +1,19 @@
+{
+    "name": "WreckTogether.Gameplay",
+    "rootNamespace": "WreckTogether.Gameplay",
+    "references": [
+        "WreckTogether.Shared",
+        "Quantum.Unity",
+        "Quantum.Simulation",
+        "Photon.Realtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

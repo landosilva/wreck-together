@@ -1,0 +1,16 @@
+{
+    "name": "WreckTogether.Settings",
+    "rootNamespace": "WreckTogether.Settings",
+    "references": [
+        "WreckTogether.Shared"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

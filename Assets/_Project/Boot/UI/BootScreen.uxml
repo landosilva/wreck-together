@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss" />
+    <ui:VisualElement class="wt-screen">
+        <ui:Label text="WRECK TOGETHER" class="wt-title" />
+        <ui:Label text="Loading..." class="wt-label--secondary" />
+    </ui:VisualElement>
+</ui:UXML>
