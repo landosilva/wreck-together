@@ -1,5 +1,6 @@
 namespace WreckTogether.Boot
 {
+    using Eflatun.SceneReference;
     using UnityEngine;
     using WreckTogether.Shared;
 
@@ -8,7 +9,8 @@ namespace WreckTogether.Boot
         [SerializeField] private SceneLoader _sceneLoader;
         [SerializeField] private GameSessionData _gameSessionData;
         [SerializeField] private float _splashDuration = 2f;
-        [SerializeField] private string _menuSceneName = "Menu";
+        [SerializeField] private SceneReference _bootScene;
+        [SerializeField] private SceneReference _menuScene;
 
         private async void Start()
         {
@@ -17,7 +19,8 @@ namespace WreckTogether.Boot
             await System.Threading.Tasks.Task.Delay(
                 (int)(_splashDuration * 1000));
 
-            await _sceneLoader.LoadSceneAsync(_menuSceneName);
+            _sceneLoader.SetCurrentScene(_bootScene.Name);
+            await _sceneLoader.LoadSceneAsync(_menuScene.Name);
         }
     }
 }

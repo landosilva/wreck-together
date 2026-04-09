@@ -1,7 +1,7 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss?fileID=7433441132597879392&amp;guid=0bc09f553e49c4a7d9ab8a93c268ffe3&amp;type=3#WreckTogetherTheme"/>
     <ui:VisualElement class="wt-screen">
-        <ui:Label text="WRECK TOGETHER" class="wt-title" />
-        <ui:Label text="Loading..." class="wt-label--secondary" />
+        <ui:Label text="WRECK TOGETHER" class="wt-title"/>
+        <ui:Label text="Loading..." class="wt-label--secondary"/>
     </ui:VisualElement>
 </ui:UXML>

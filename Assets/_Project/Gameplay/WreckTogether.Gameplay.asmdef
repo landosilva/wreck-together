@@ -3,6 +3,7 @@
     "rootNamespace": "WreckTogether.Gameplay",
     "references": [
         "WreckTogether.Shared",
+        "Eflatun.SceneReference",
         "Quantum.Unity",
         "Quantum.Simulation",
         "Photon.Realtime"

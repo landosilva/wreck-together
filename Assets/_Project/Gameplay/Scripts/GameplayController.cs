@@ -1,5 +1,6 @@
 namespace WreckTogether.Gameplay
 {
+    using Eflatun.SceneReference;
     using Quantum;
     using UnityEngine;
     using UnityEngine.UIElements;
@@ -10,7 +11,7 @@ namespace WreckTogether.Gameplay
         [SerializeField] private UIDocument _uiDocument;
         [SerializeField] private SceneLoader _sceneLoader;
         [SerializeField] private GameSessionData _gameSessionData;
-        [SerializeField] private string _resultsSceneName = "Results";
+        [SerializeField] private SceneReference _resultsScene;
 
         private Label _timerLabel;
         private bool _transitioning;
@@ -60,7 +61,7 @@ namespace WreckTogether.Gameplay
                 await runner.ShutdownAsync();
             }
 
-            await _sceneLoader.LoadSceneAsync(_resultsSceneName);
+            await _sceneLoader.LoadSceneAsync(_resultsScene.Name);
         }
     }
 }

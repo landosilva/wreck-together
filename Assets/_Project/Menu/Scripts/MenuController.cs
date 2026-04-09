@@ -1,5 +1,6 @@
 namespace WreckTogether.Menu
 {
+    using Eflatun.SceneReference;
     using UnityEngine;
     using UnityEngine.UIElements;
     using WreckTogether.Shared;
@@ -8,7 +9,7 @@ namespace WreckTogether.Menu
     {
         [SerializeField] private UIDocument _uiDocument;
         [SerializeField] private SceneLoader _sceneLoader;
-        [SerializeField] private string _lobbySceneName = "Lobby";
+        [SerializeField] private SceneReference _lobbyScene;
 
         private Button _playButton;
         private Button _settingsButton;
@@ -45,7 +46,7 @@ namespace WreckTogether.Menu
         private async void OnPlayClicked()
         {
             _playButton.SetEnabled(false);
-            await _sceneLoader.LoadSceneAsync(_lobbySceneName);
+            await _sceneLoader.LoadSceneAsync(_lobbyScene.Name);
         }
 
         private void OnSettingsClicked()

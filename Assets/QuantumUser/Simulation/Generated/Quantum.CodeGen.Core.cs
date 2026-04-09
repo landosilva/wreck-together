@@ -527,7 +527,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 224;
+    public const Int32 SIZE = 240;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(16)]
     public Button Left;
@@ -565,8 +565,10 @@ namespace Quantum {
     public Byte _analogRightTrigger;
     [FieldOffset(0)]
     public Byte _analogLeftTrigger;
-    [FieldOffset(200)]
+    [FieldOffset(216)]
     public QuantumThumbSticks ThumbSticks;
+    [FieldOffset(200)]
+    public FPVector2 Movement;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 19249;
@@ -589,6 +591,7 @@ namespace Quantum {
         hash = hash * 31 + _analogRightTrigger.GetHashCode();
         hash = hash * 31 + _analogLeftTrigger.GetHashCode();
         hash = hash * 31 + ThumbSticks.GetHashCode();
+        hash = hash * 31 + Movement.GetHashCode();
         return hash;
       }
     }
@@ -657,6 +660,7 @@ namespace Quantum {
         Button.Serialize(&p->_select, serializer);
         Button.Serialize(&p->_start, serializer);
         Button.Serialize(&p->_up, serializer);
+        FPVector2.Serialize(&p->Movement, serializer);
         Quantum.QuantumThumbSticks.Serialize(&p->ThumbSticks, serializer);
     }
   }
@@ -869,10 +873,8 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1968;
+    public const Int32 SIZE = 2072;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(1964)]
-    private fixed Byte _alignment_padding_[4];
     [FieldOffset(0)]
     public AssetRef<Map> Map;
     [FieldOffset(8)]
@@ -895,14 +897,18 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(608)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 6)]
-    private fixed Byte _input_[1344];
-    [FieldOffset(1952)]
+    private fixed Byte _input_[1440];
+    [FieldOffset(2048)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(1960)]
+    [FieldOffset(2056)]
     public Int32 AsteroidsWaveCount;
+    [FieldOffset(2064)]
+    public FP MatchTimer;
+    [FieldOffset(2060)]
+    public QBoolean MatchOver;
     public readonly FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 224, 6); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 240, 6); }
       }
     }
     public override readonly Int32 GetHashCode() {
@@ -921,6 +927,8 @@ namespace Quantum {
         hash = hash * 31 + HashCodeUtils.GetArrayHashCode(input);
         hash = hash * 31 + PlayerLastConnectionState.GetHashCode();
         hash = hash * 31 + AsteroidsWaveCount.GetHashCode();
+        hash = hash * 31 + MatchTimer.GetHashCode();
+        hash = hash * 31 + MatchOver.GetHashCode();
         return hash;
       }
     }
@@ -939,6 +947,8 @@ namespace Quantum {
         FixedArray.Serialize(p->input, serializer, Statics.SerializeInput);
         Quantum.BitSet6.Serialize(&p->PlayerLastConnectionState, serializer);
         serializer.Stream.Serialize(&p->AsteroidsWaveCount);
+        QBoolean.Serialize(&p->MatchOver, serializer);
+        FP.Serialize(&p->MatchTimer, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -1112,6 +1122,24 @@ namespace Quantum {
         FP.Serialize(&p->RespawnTimer, serializer);
     }
   }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct WreckPlayerLink : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    public PlayerRef PlayerRef;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 14369;
+        hash = hash * 31 + PlayerRef.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (WreckPlayerLink*)ptr;
+        PlayerRef.Serialize(&p->PlayerRef, serializer);
+    }
+  }
   public unsafe partial interface ISignalAsteroidsSpawnShip : ISignal {
     void AsteroidsSpawnShip(Frame f, EntityRef ship);
   }
@@ -1196,6 +1224,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Transform3D>();
       BuildSignalsArrayOnComponentAdded<View>();
       BuildSignalsArrayOnComponentRemoved<View>();
+      BuildSignalsArrayOnComponentAdded<Quantum.WreckPlayerLink>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.WreckPlayerLink>();
     }
     partial void SetPlayerInputCodeGen(PlayerRef player, Input input) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }
@@ -1219,6 +1249,7 @@ namespace Quantum {
       i->_analogRightTrigger = input._analogRightTrigger;
       i->_analogLeftTrigger = input._analogLeftTrigger;
       i->ThumbSticks = input.ThumbSticks;
+      i->Movement = input.Movement;
     }
     public Input* GetPlayerInput(PlayerRef player) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }
@@ -1368,16 +1399,18 @@ namespace Quantum {
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);
       typeRegistry.Register(typeof(Transform3D), Transform3D.SIZE);
       typeRegistry.Register(typeof(View), View.SIZE);
+      typeRegistry.Register(typeof(Quantum.WreckPlayerLink), Quantum.WreckPlayerLink.SIZE);
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 5)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 6)
         .AddBuiltInComponents()
         .Add<Quantum.AsteroidsAsteroid>(Quantum.AsteroidsAsteroid.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.AsteroidsPlayerLink>(Quantum.AsteroidsPlayerLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.AsteroidsProjectile>(Quantum.AsteroidsProjectile.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.AsteroidsShip>(Quantum.AsteroidsShip.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.AsteroidsShipRespawn>(Quantum.AsteroidsShipRespawn.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.WreckPlayerLink>(Quantum.WreckPlayerLink.Serialize, null, null, ComponentFlags.None)
         .Finish();
     }
     [Preserve()]

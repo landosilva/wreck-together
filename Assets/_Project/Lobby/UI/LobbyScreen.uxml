@@ -1,23 +1,25 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss" />
     <ui:VisualElement class="wt-screen">
-        <ui:VisualElement class="wt-panel" style="min-width: 450px;">
+        <ui:VisualElement class="wt-panel" style="min-width: 350px;">
             <ui:Label text="LOBBY" class="wt-title" />
             <ui:Label name="status-label" text="Enter a room name to create or join." class="wt-label--secondary" />
 
             <!-- Connect Panel -->
-            <ui:VisualElement name="connect-panel" style="align-items: center; margin-top: 16px;">
+            <ui:VisualElement name="connect-panel" style="align-items: center; margin-top: 12px;">
                 <ui:TextField name="room-name-field" label="Room Name" value="WreckRoom" class="wt-textfield" />
                 <ui:Button name="create-button" text="CREATE ROOM" class="wt-button" />
                 <ui:Button name="join-button" text="JOIN ROOM" class="wt-button wt-button--secondary" />
             </ui:VisualElement>
 
             <!-- Room Panel (shown after connecting) -->
-            <ui:VisualElement name="room-panel" style="align-items: center; margin-top: 16px;">
+            <ui:VisualElement name="room-panel" style="align-items: center; margin-top: 12px; width: 100%;">
+                <ui:Label text="Players" class="wt-label" style="margin-bottom: 4px;" />
+                <ui:VisualElement name="player-list" style="width: 100%; margin-bottom: 12px;" />
                 <ui:Button name="start-button" text="START GAME" class="wt-button" />
             </ui:VisualElement>
 
-            <ui:Button name="back-button" text="BACK" class="wt-button wt-button--secondary" style="margin-top: 24px;" />
+            <ui:Button name="back-button" text="BACK" class="wt-button wt-button--secondary" style="margin-top: 16px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

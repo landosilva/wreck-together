@@ -1,27 +1,38 @@
 namespace WreckTogether.Lobby
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Eflatun.SceneReference;
     using Photon.Deterministic;
     using Photon.Realtime;
     using Quantum;
-    using Quantum.Menu;
     using UnityEngine;
-    using UnityEngine.SceneManagement;
 
     public class LobbyConnectionHandler : MonoBehaviour
     {
-        [SerializeField] private string _gameplaySceneName = "Gameplay";
+        private const string GameStartedKey = "started";
+
+        [SerializeField] private SceneReference _gameplayScene;
         [SerializeField] private int _maxPlayers = 4;
+        [SerializeField] private Quantum.AssetRef<Quantum.WreckTogether.WreckGameConfig> _wreckGameConfig;
+        [SerializeField] private Quantum.AssetRef<Quantum.EntityPrototype> _playerPrototype;
+        [SerializeField] private WreckTogether.Shared.SceneLoader _sceneLoader;
 
         private RealtimeClient _client;
         private QuantumRunner _runner;
         private CancellationTokenSource _cancellation;
-        private string _loadedScene;
+        private bool _gameStarting;
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         public bool IsConnected => _client is { IsConnected: true };
         public bool IsInRoom => _client?.CurrentRoom != null;
+        public bool IsGameStarting => _gameStarting;
         public string RoomName => _client?.CurrentRoom?.Name;
         public RealtimeClient Client => _client;
         public QuantumRunner Runner => _runner;
@@ -35,6 +46,7 @@ namespace WreckTogether.Lobby
             }
 
             _cancellation = new CancellationTokenSource();
+            _gameStarting = false;
 
             var appSettings = PhotonServerSettings.Global.AppSettings;
             var arguments = new MatchmakingArguments
@@ -43,6 +55,7 @@ namespace WreckTogether.Lobby
                 MaxPlayers = _maxPlayers,
                 RoomName = roomName,
                 CanOnlyJoin = !creating,
+                PluginName = "QuantumPlugin",
                 AsyncConfig = new AsyncConfig
                 {
                     TaskFactory = AsyncConfig.CreateUnityTaskFactory(),
@@ -68,6 +81,27 @@ namespace WreckTogether.Lobby
             }
         }
 
+        /// <summary>
+        /// Host-only: signals all clients to start the game via room properties.
+        /// </summary>
+        public bool SignalGameStart()
+        {
+            if (_client?.CurrentRoom == null)
+            {
+                Debug.LogError("[LobbyConnection] Not in a room.");
+                return false;
+            }
+
+            var props = new Photon.Client.PhotonHashtable { { GameStartedKey, true } };
+            _client.CurrentRoom.SetCustomProperties(props);
+            Debug.Log("[LobbyConnection] Host signaled game start.");
+            return true;
+        }
+
+        /// <summary>
+        /// Called by all clients (including host) to load gameplay and start the Quantum session.
+        /// Uses SceneLoader so that scene state is properly tracked for later transitions.
+        /// </summary>
         public async Task<bool> StartGameAsync()
         {
             if (_client?.CurrentRoom == null)
@@ -78,14 +112,14 @@ namespace WreckTogether.Lobby
 
             try
             {
-                // Load gameplay scene additively
-                await SceneManager.LoadSceneAsync(_gameplaySceneName, LoadSceneMode.Additive);
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName(_gameplaySceneName));
-                _loadedScene = _gameplaySceneName;
+                // Load gameplay scene via SceneLoader (unloads Lobby, tracks current scene)
+                await _sceneLoader.LoadSceneAsync(_gameplayScene.Name);
 
                 // Build RuntimeConfig
                 var runtimeConfig = new RuntimeConfig();
                 runtimeConfig.Seed = Guid.NewGuid().GetHashCode();
+                runtimeConfig.WreckGameConfig = _wreckGameConfig;
+                runtimeConfig.WreckPlayerPrototype = _playerPrototype;
 
                 var defaultConfigs = QuantumDefaultConfigs.Global;
                 if (defaultConfigs != null)
@@ -134,6 +168,7 @@ namespace WreckTogether.Lobby
             _cancellation?.Cancel();
             _cancellation?.Dispose();
             _cancellation = null;
+            _gameStarting = false;
 
             if (_runner != null)
             {
@@ -163,23 +198,26 @@ namespace WreckTogether.Lobby
                 }
                 _client = null;
             }
+        }
 
-            if (!string.IsNullOrEmpty(_loadedScene))
-            {
-                try
-                {
-                    var scene = SceneManager.GetSceneByName(_loadedScene);
-                    if (scene.isLoaded)
-                    {
-                        await SceneManager.UnloadSceneAsync(_loadedScene);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.LogException(e);
-                }
-                _loadedScene = null;
-            }
+        private void Update()
+        {
+            _client?.Service();
+            CheckForGameStart();
+        }
+
+        private void CheckForGameStart()
+        {
+            if (_gameStarting) return;
+            if (_client?.CurrentRoom == null) return;
+
+            var props = _client.CurrentRoom.CustomProperties;
+            if (props == null || !props.ContainsKey(GameStartedKey)) return;
+            if (!(bool)props[GameStartedKey]) return;
+
+            _gameStarting = true;
+            Debug.Log("[LobbyConnection] Detected game start signal.");
+            _ = StartGameAsync();
         }
 
         private void OnDestroy()

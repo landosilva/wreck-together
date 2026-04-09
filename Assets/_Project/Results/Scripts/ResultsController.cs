@@ -1,5 +1,6 @@
 namespace WreckTogether.Results
 {
+    using Eflatun.SceneReference;
     using UnityEngine;
     using UnityEngine.UIElements;
     using WreckTogether.Shared;
@@ -9,8 +10,8 @@ namespace WreckTogether.Results
         [SerializeField] private UIDocument _uiDocument;
         [SerializeField] private SceneLoader _sceneLoader;
         [SerializeField] private GameSessionData _gameSessionData;
-        [SerializeField] private string _lobbySceneName = "Lobby";
-        [SerializeField] private string _menuSceneName = "Menu";
+        [SerializeField] private SceneReference _lobbyScene;
+        [SerializeField] private SceneReference _menuScene;
 
         private Button _replayButton;
         private Button _menuButton;
@@ -41,7 +42,7 @@ namespace WreckTogether.Results
         {
             _replayButton.SetEnabled(false);
             _menuButton.SetEnabled(false);
-            await _sceneLoader.LoadSceneAsync(_lobbySceneName);
+            await _sceneLoader.LoadSceneAsync(_lobbyScene.Name);
         }
 
         private async void OnMenuClicked()
@@ -49,7 +50,7 @@ namespace WreckTogether.Results
             _replayButton.SetEnabled(false);
             _menuButton.SetEnabled(false);
             _gameSessionData.Clear();
-            await _sceneLoader.LoadSceneAsync(_menuSceneName);
+            await _sceneLoader.LoadSceneAsync(_menuScene.Name);
         }
     }
 }

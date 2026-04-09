@@ -2,7 +2,8 @@
     "name": "WreckTogether.Menu",
     "rootNamespace": "WreckTogether.Menu",
     "references": [
-        "WreckTogether.Shared"
+        "WreckTogether.Shared",
+        "Eflatun.SceneReference"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

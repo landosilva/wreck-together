@@ -10,14 +10,14 @@
     --wt-text-secondary: rgb(160, 160, 180);
     --wt-danger: rgb(220, 60, 60);
     --wt-success: rgb(60, 200, 100);
-    --wt-font-size-sm: 14px;
-    --wt-font-size-md: 18px;
-    --wt-font-size-lg: 28px;
-    --wt-font-size-xl: 48px;
-    --wt-border-radius: 8px;
-    --wt-spacing-sm: 8px;
-    --wt-spacing-md: 16px;
-    --wt-spacing-lg: 32px;
+    --wt-font-size-sm: 12px;
+    --wt-font-size-md: 14px;
+    --wt-font-size-lg: 20px;
+    --wt-font-size-xl: 32px;
+    --wt-border-radius: 6px;
+    --wt-spacing-sm: 4px;
+    --wt-spacing-md: 8px;
+    --wt-spacing-lg: 16px;
 }
 
 /* === Layout === */
@@ -71,12 +71,11 @@
     background-color: var(--wt-accent);
     border-width: 0;
     border-radius: var(--wt-border-radius);
-    padding: 12px 32px;
+    padding: 8px 24px;
     margin: var(--wt-spacing-sm);
-    min-width: 200px;
+    min-width: 160px;
     -unity-text-align: middle-center;
     transition-duration: 0.15s;
-    cursor: link;
 }
 
 .wt-button:hover {
@@ -157,7 +156,7 @@
 /* === Timer === */
 
 .wt-timer {
-    font-size: 64px;
+    font-size: 42px;
     color: var(--wt-accent);
     -unity-font-style: bold;
     -unity-text-align: upper-center;

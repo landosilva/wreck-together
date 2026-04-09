@@ -150,6 +150,7 @@ namespace Quantum.Prototypes {
     public Byte _analogRightTrigger;
     public Byte _analogLeftTrigger;
     public Quantum.Prototypes.QuantumThumbSticksPrototype ThumbSticks;
+    public FPVector2 Movement;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
         result.Left = this.Left;
@@ -171,6 +172,7 @@ namespace Quantum.Prototypes {
         result._analogRightTrigger = this._analogRightTrigger;
         result._analogLeftTrigger = this._analogLeftTrigger;
         this.ThumbSticks.Materialize(frame, ref result.ThumbSticks, in context);
+        result.Movement = this.Movement;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -300,6 +302,21 @@ namespace Quantum.Prototypes {
           case "": case null: break;
           default: PrototypeValidator.UnknownUnionField(_field_used_, in context); break;
         }
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.WreckPlayerLink))]
+  public unsafe partial class WreckPlayerLinkPrototype : ComponentPrototype<Quantum.WreckPlayerLink> {
+    public PlayerRef PlayerRef;
+    partial void MaterializeUser(Frame frame, ref Quantum.WreckPlayerLink result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.WreckPlayerLink component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.WreckPlayerLink result, in PrototypeMaterializationContext context = default) {
+        result.PlayerRef = this.PlayerRef;
         MaterializeUser(frame, ref result, in context);
     }
   }
