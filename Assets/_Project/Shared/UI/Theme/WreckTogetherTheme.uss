@@ -29,17 +29,18 @@
     padding: 16px 24px;
     align-items: center;
     width: 30%;
-    min-width: 240px;
+    min-width: 300px;
     max-width: 450px;
 }
 
 /* === Typography === */
 
 .wt-title {
-    font-size: 24px;
+    font-size: 20px;
     color: var(--wt-accent);
     -unity-font-style: bold;
     margin-bottom: 8px;
+    -unity-text-align: upper-center;
     white-space: nowrap;
 }
 
