@@ -10,7 +10,7 @@
 
         <!-- Settings Overlay -->
         <ui:VisualElement name="settings-overlay" class="wt-overlay">
-            <ui:VisualElement class="wt-panel" style="min-width: 500px;">
+            <ui:VisualElement class="wt-panel">
                 <ui:Label text="SETTINGS" class="wt-subtitle" />
 
                 <ui:Label text="Audio" class="wt-label" style="margin-top: 16px;" />

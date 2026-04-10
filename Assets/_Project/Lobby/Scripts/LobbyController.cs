@@ -15,6 +15,7 @@ namespace WreckTogether.Lobby
         [SerializeField] private SceneReference _menuScene;
         [SerializeField] private float _playerListRefreshInterval = 0.5f;
 
+        private TextField _nicknameField;
         private TextField _roomNameField;
         private Button _createButton;
         private Button _joinButton;
@@ -32,7 +33,11 @@ namespace WreckTogether.Lobby
         {
             var root = _uiDocument.rootVisualElement;
 
+            _nicknameField = root.Q<TextField>("nickname-field");
             _roomNameField = root.Q<TextField>("room-name-field");
+
+            // Restore saved nickname
+            _nicknameField.value = PlayerPrefs.GetString("PlayerNickname", "");
             _createButton = root.Q<Button>("create-button");
             _joinButton = root.Q<Button>("join-button");
             _startButton = root.Q<Button>("start-button");
@@ -103,7 +108,8 @@ namespace WreckTogether.Lobby
             foreach (KeyValuePair<int, Photon.Realtime.Player> kvp in players)
             {
                 var player = kvp.Value;
-                var label = new Label($"{player.UserId ?? player.NickName ?? $"Player {kvp.Key}"}");
+                var displayName = !string.IsNullOrEmpty(player.NickName) ? player.NickName : $"Player {kvp.Key}";
+                var label = new Label(displayName);
                 label.AddToClassList("wt-player-item");
                 _playerList.Add(label);
             }
@@ -112,7 +118,7 @@ namespace WreckTogether.Lobby
             _gameSessionData.ConnectedPlayers.Clear();
             foreach (KeyValuePair<int, Photon.Realtime.Player> entry in players)
             {
-                _gameSessionData.ConnectedPlayers.Add(entry.Value.UserId ?? entry.Value.NickName ?? $"Player {entry.Key}");
+                _gameSessionData.ConnectedPlayers.Add(!string.IsNullOrEmpty(entry.Value.NickName) ? entry.Value.NickName : $"Player {entry.Key}");
             }
         }
 
@@ -124,8 +130,24 @@ namespace WreckTogether.Lobby
             _backButton.SetEnabled(enabled);
         }
 
+        private string GetValidatedNickname()
+        {
+            var nickname = _nicknameField.value?.Trim();
+            if (string.IsNullOrWhiteSpace(nickname))
+            {
+                _statusLabel.text = "Please enter a nickname.";
+                return null;
+            }
+
+            PlayerPrefs.SetString("PlayerNickname", nickname);
+            return nickname;
+        }
+
         private async void OnCreateClicked()
         {
+            var nickname = GetValidatedNickname();
+            if (nickname == null) return;
+
             var roomName = _roomNameField.value;
             if (string.IsNullOrWhiteSpace(roomName))
             {
@@ -136,7 +158,7 @@ namespace WreckTogether.Lobby
             SetButtonsEnabled(false);
             _statusLabel.text = "Creating room...";
 
-            var success = await _connectionHandler.ConnectToRoomAsync(roomName, creating: true);
+            var success = await _connectionHandler.ConnectToRoomAsync(roomName, creating: true, nickname);
             if (success)
             {
                 _gameSessionData.IsHost = true;
@@ -152,6 +174,9 @@ namespace WreckTogether.Lobby
 
         private async void OnJoinClicked()
         {
+            var nickname = GetValidatedNickname();
+            if (nickname == null) return;
+
             var roomName = _roomNameField.value;
             if (string.IsNullOrWhiteSpace(roomName))
             {
@@ -162,7 +187,7 @@ namespace WreckTogether.Lobby
             SetButtonsEnabled(false);
             _statusLabel.text = "Joining room...";
 
-            var success = await _connectionHandler.ConnectToRoomAsync(roomName, creating: false);
+            var success = await _connectionHandler.ConnectToRoomAsync(roomName, creating: false, nickname);
             if (success)
             {
                 _gameSessionData.IsHost = false;

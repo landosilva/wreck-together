@@ -171,6 +171,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &189922207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 189922210}
+  - component: {fileID: 189922208}
+  m_Layer: 0
+  m_Name: GameplayInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &189922208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189922207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0d4dc5b50ba4a029c12ea087ba37ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.GameplayInput
+  _mouseSensitivity: 0.15
+  _gamepadLookSensitivity: 120
+--- !u!4 &189922210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189922207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &420066316
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,50 +322,6 @@ MonoBehaviour:
   _resultsScene:
     asset: {fileID: 102900000, guid: d49f9b92e9c704c89ac17a4b19c0cc45, type: 3}
     guid: d49f9b92e9c704c89ac17a4b19c0cc45
---- !u!1 &1123416537
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1123416539}
-  - component: {fileID: 1123416538}
-  m_Layer: 0
-  m_Name: QuantumDebugInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1123416538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123416537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80a0dde3922e0f47b2e12ce66a4cfdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumDebugInput
---- !u!4 &1123416539
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123416537}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1526701895
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,7 +542,8 @@ MonoBehaviour:
   BakeAllMode: 112
   NavMeshSerializeType: 0
   StaticCollider2DReferences: []
-  StaticCollider3DReferences: []
+  StaticCollider3DReferences:
+  - {fileID: 1880973067}
   MapEntityReferences: []
   Asset: {fileID: 0}
 --- !u!4 &1666008498
@@ -569,6 +572,7 @@ GameObject:
   - component: {fileID: 1714419673}
   - component: {fileID: 1714419672}
   - component: {fileID: 1714419671}
+  - component: {fileID: 1714419674}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -650,6 +654,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1714419674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714419670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 777a21dc1f6ff4c91a8a03d94e057f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.FPSCameraController
+  _input: {fileID: 189922208}
+  _eyeHeight: 0.8
 --- !u!1 &1866882891
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,7 +776,7 @@ GameObject:
   - component: {fileID: 1880973066}
   - component: {fileID: 1880973065}
   - component: {fileID: 1880973064}
-  - component: {fileID: 1880973063}
+  - component: {fileID: 1880973067}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -766,28 +784,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &1880973063
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1880973062}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1880973064
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -844,7 +840,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880973062}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1880973066
 Transform:
   m_ObjectHideFlags: 0
@@ -854,17 +850,61 @@ Transform:
   m_GameObject: {fileID: 1880973062}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0, y: -0.05, z: 0}
+  m_LocalScale: {x: 10, y: 0.1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1880973067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880973062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc94c3ce6de4c74989839aecde663d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumStaticBoxCollider3D
+  SourceCollider: {fileID: 0}
+  Size:
+    X:
+      RawValue: 65536
+    Y:
+      RawValue: 65536
+    Z:
+      RawValue: 65536
+  PositionOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  RotationOffset:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 0
+  Settings:
+    MutableMode: 0
+    PhysicsMaterial:
+      Id:
+        Value: 0
+    Asset:
+      Id:
+        Value: 0
+    Trigger: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 903156962}
+  - {fileID: 189922210}
   - {fileID: 420066318}
   - {fileID: 1714419673}
   - {fileID: 1866882893}
@@ -873,4 +913,3 @@ SceneRoots:
   - {fileID: 1526701897}
   - {fileID: 1666008498}
   - {fileID: 1615269407}
-  - {fileID: 1123416539}

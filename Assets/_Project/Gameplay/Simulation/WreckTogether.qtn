@@ -1,5 +1,6 @@
 input {
     FPVector2 Movement;
+    FP Yaw;
 }
 
 global {

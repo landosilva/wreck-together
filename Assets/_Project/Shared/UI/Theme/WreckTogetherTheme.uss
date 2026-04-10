@@ -1,4 +1,5 @@
 /* === Wreck Together — Base Theme === */
+/* Reference resolution: 1200x800 (PanelSettings ScaleWithScreenSize, Match 0.5) */
 
 :root {
     --wt-bg-primary: rgb(24, 24, 32);
@@ -10,14 +11,7 @@
     --wt-text-secondary: rgb(160, 160, 180);
     --wt-danger: rgb(220, 60, 60);
     --wt-success: rgb(60, 200, 100);
-    --wt-font-size-sm: 12px;
-    --wt-font-size-md: 14px;
-    --wt-font-size-lg: 20px;
-    --wt-font-size-xl: 32px;
     --wt-border-radius: 6px;
-    --wt-spacing-sm: 4px;
-    --wt-spacing-md: 8px;
-    --wt-spacing-lg: 16px;
 }
 
 /* === Layout === */
@@ -32,48 +26,52 @@
 .wt-panel {
     background-color: var(--wt-bg-panel);
     border-radius: var(--wt-border-radius);
-    padding: var(--wt-spacing-lg);
+    padding: 16px 24px;
     align-items: center;
+    width: 30%;
+    min-width: 240px;
+    max-width: 450px;
 }
 
 /* === Typography === */
 
 .wt-title {
-    font-size: var(--wt-font-size-xl);
+    font-size: 24px;
     color: var(--wt-accent);
     -unity-font-style: bold;
-    margin-bottom: var(--wt-spacing-lg);
+    margin-bottom: 8px;
+    white-space: nowrap;
 }
 
 .wt-subtitle {
-    font-size: var(--wt-font-size-lg);
+    font-size: 16px;
     color: var(--wt-text-primary);
     -unity-font-style: bold;
-    margin-bottom: var(--wt-spacing-md);
+    margin-bottom: 6px;
 }
 
 .wt-label {
-    font-size: var(--wt-font-size-md);
+    font-size: 12px;
     color: var(--wt-text-primary);
 }
 
 .wt-label--secondary {
-    font-size: var(--wt-font-size-sm);
+    font-size: 11px;
     color: var(--wt-text-secondary);
 }
 
 /* === Buttons === */
 
 .wt-button {
-    font-size: var(--wt-font-size-md);
+    font-size: 12px;
     -unity-font-style: bold;
     color: var(--wt-bg-primary);
     background-color: var(--wt-accent);
     border-width: 0;
     border-radius: var(--wt-border-radius);
-    padding: 8px 24px;
-    margin: var(--wt-spacing-sm);
-    min-width: 160px;
+    padding: 6px 16px;
+    margin: 3px 0;
+    align-self: stretch;
     -unity-text-align: middle-center;
     transition-duration: 0.15s;
 }
@@ -107,8 +105,15 @@
 /* === Inputs === */
 
 .wt-textfield {
-    font-size: var(--wt-font-size-md);
-    margin: var(--wt-spacing-sm);
+    font-size: 12px;
+    margin: 3px 0;
+    align-self: stretch;
+}
+
+.wt-textfield > .unity-label {
+    font-size: 11px;
+    color: var(--wt-text-secondary);
+    min-width: 70px;
 }
 
 .wt-textfield > .unity-text-field__input {
@@ -116,7 +121,7 @@
     color: var(--wt-text-primary);
     border-color: var(--wt-text-secondary);
     border-radius: var(--wt-border-radius);
-    padding: 8px 12px;
+    padding: 6px 8px;
 }
 
 .wt-textfield > .unity-text-field__input:focus {
@@ -126,7 +131,8 @@
 /* === Slider === */
 
 .wt-slider {
-    margin: var(--wt-spacing-sm);
+    margin: 3px 0;
+    align-self: stretch;
 }
 
 /* === Overlay === */
@@ -145,9 +151,9 @@
 /* === Player List === */
 
 .wt-player-item {
-    font-size: var(--wt-font-size-md);
+    font-size: 12px;
     color: var(--wt-text-primary);
-    padding: var(--wt-spacing-sm) var(--wt-spacing-md);
+    padding: 3px 6px;
     background-color: var(--wt-bg-secondary);
     border-radius: 4px;
     margin: 2px 0;
@@ -156,7 +162,7 @@
 /* === Timer === */
 
 .wt-timer {
-    font-size: 42px;
+    font-size: 32px;
     color: var(--wt-accent);
     -unity-font-style: bold;
     -unity-text-align: upper-center;

@@ -9,7 +9,7 @@ namespace Quantum.WreckTogether
         {
             public EntityRef Entity;
             public Transform3D* Transform;
-            public PhysicsBody3D* Body;
+            public KCC* KCC;
             public WreckPlayerLink* PlayerLink;
         }
 
@@ -20,7 +20,6 @@ namespace Quantum.WreckTogether
                 return;
             }
 
-            var config = f.FindAsset(f.RuntimeConfig.WreckGameConfig);
             Input* input = f.GetPlayerInput(filter.PlayerLink->PlayerRef);
 
             var movement = input->Movement;
@@ -29,8 +28,15 @@ namespace Quantum.WreckTogether
                 movement = movement.Normalized;
             }
 
-            var force = new FPVector3(movement.X, 0, movement.Y) * config.PlayerMoveSpeed;
-            filter.Body->AddForce(force);
+            // Rotate movement by yaw so WASD is relative to look direction
+            var yawRotation = FPQuaternion.Euler(0, input->Yaw, 0);
+            var moveDirection = yawRotation * new FPVector3(movement.X, 0, movement.Y);
+
+            // Feed direction to KCC — EnvironmentProcessor handles acceleration/friction
+            filter.KCC->SetInputDirection(moveDirection);
+
+            // Set look rotation so entity faces the yaw direction
+            filter.KCC->SetLookRotation(0, input->Yaw);
         }
 
         public void OnPlayerAdded(Frame f, PlayerRef player, bool firstTime)
@@ -45,7 +51,6 @@ namespace Quantum.WreckTogether
 
             f.Set(entity, new WreckPlayerLink { PlayerRef = player });
 
-            // Spread players along X axis
             if (f.Unsafe.TryGetPointer<Transform3D>(entity, out var transform))
             {
                 var offset = player._index * 2;

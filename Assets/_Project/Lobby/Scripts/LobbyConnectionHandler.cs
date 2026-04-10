@@ -18,12 +18,14 @@ namespace WreckTogether.Lobby
         [SerializeField] private int _maxPlayers = 4;
         [SerializeField] private Quantum.AssetRef<Quantum.WreckTogether.WreckGameConfig> _wreckGameConfig;
         [SerializeField] private Quantum.AssetRef<Quantum.EntityPrototype> _playerPrototype;
+        [SerializeField] private Quantum.AssetRef<Quantum.Map> _map;
         [SerializeField] private WreckTogether.Shared.SceneLoader _sceneLoader;
 
         private RealtimeClient _client;
         private QuantumRunner _runner;
         private CancellationTokenSource _cancellation;
         private bool _gameStarting;
+        private string _nickname;
 
         private void Awake()
         {
@@ -37,7 +39,7 @@ namespace WreckTogether.Lobby
         public RealtimeClient Client => _client;
         public QuantumRunner Runner => _runner;
 
-        public async Task<bool> ConnectToRoomAsync(string roomName, bool creating)
+        public async Task<bool> ConnectToRoomAsync(string roomName, bool creating, string nickname)
         {
             if (_client is { IsConnected: true })
             {
@@ -47,6 +49,7 @@ namespace WreckTogether.Lobby
 
             _cancellation = new CancellationTokenSource();
             _gameStarting = false;
+            _nickname = nickname;
 
             var appSettings = PhotonServerSettings.Global.AppSettings;
             var arguments = new MatchmakingArguments
@@ -70,7 +73,8 @@ namespace WreckTogether.Lobby
             try
             {
                 _client = await MatchmakingExtensions.ConnectToRoomAsync(arguments);
-                Debug.Log($"[LobbyConnection] Connected to room: {_client.CurrentRoom.Name}");
+                _client.NickName = _nickname;
+                Debug.Log($"[LobbyConnection] Connected to room: {_client.CurrentRoom.Name} as {_nickname}");
                 return true;
             }
             catch (Exception e)
@@ -118,6 +122,7 @@ namespace WreckTogether.Lobby
                 // Build RuntimeConfig
                 var runtimeConfig = new RuntimeConfig();
                 runtimeConfig.Seed = Guid.NewGuid().GetHashCode();
+                runtimeConfig.Map = _map;
                 runtimeConfig.WreckGameConfig = _wreckGameConfig;
                 runtimeConfig.WreckPlayerPrototype = _playerPrototype;
 
@@ -143,8 +148,9 @@ namespace WreckTogether.Lobby
 
                 _runner = (QuantumRunner)await SessionRunner.StartAsync(sessionArgs);
 
-                // Add local player
+                // Add local player with nickname
                 var runtimePlayer = new RuntimePlayer();
+                runtimePlayer.PlayerNickname = _nickname;
                 _runner.Game.AddPlayer(0, runtimePlayer);
 
                 Debug.Log("[LobbyConnection] Game started.");

@@ -6,7 +6,8 @@
         "Eflatun.SceneReference",
         "Quantum.Unity",
         "Quantum.Simulation",
-        "Photon.Realtime"
+        "Photon.Realtime",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

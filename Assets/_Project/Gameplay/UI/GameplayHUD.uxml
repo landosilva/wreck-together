@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss" />
-    <ui:VisualElement style="flex-grow: 1; align-items: center; padding-top: 40px;">
+    <ui:VisualElement style="flex-grow: 1; align-items: center; padding-top: 24px;">
         <ui:Label name="timer-label" text="30" class="wt-timer" />
     </ui:VisualElement>
 </ui:UXML>

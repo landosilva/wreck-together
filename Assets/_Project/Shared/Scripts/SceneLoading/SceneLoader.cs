@@ -17,6 +17,11 @@ namespace WreckTogether.Shared
 
         public async Task LoadSceneAsync(string sceneName)
         {
+            if (string.IsNullOrEmpty(_currentScene))
+            {
+                _currentScene = SceneManager.GetActiveScene().name;
+            }
+
             var previousScene = _currentScene;
 
             EnsureOverlay();

@@ -62,6 +62,58 @@ namespace Quantum.Prototypes.Unity {
       return result;
     }
   }
+  [System.SerializableAttribute()]
+  public unsafe partial class KCCPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.KCCPrototype> {
+    public AssetRef<KCCSettings> Settings;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.KCCPrototype prototype);
+    public override Quantum.Prototypes.KCCPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.KCCPrototype();
+      converter.Convert(this.Settings, out result.Settings);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class KCCCollisionPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.KCCCollisionPrototype> {
+    public Quantum.QEnum8<EKCCCollisionSource> Source;
+    public Quantum.QuantumEntityPrototype Reference;
+    public AssetRef Processor;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.KCCCollisionPrototype prototype);
+    public override Quantum.Prototypes.KCCCollisionPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.KCCCollisionPrototype();
+      converter.Convert(this.Source, out result.Source);
+      converter.Convert(this.Reference, out result.Reference);
+      converter.Convert(this.Processor, out result.Processor);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class KCCIgnorePrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.KCCIgnorePrototype> {
+    public Quantum.QEnum8<EKCCIgnoreSource> Source;
+    public Quantum.QuantumEntityPrototype Reference;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.KCCIgnorePrototype prototype);
+    public override Quantum.Prototypes.KCCIgnorePrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.KCCIgnorePrototype();
+      converter.Convert(this.Source, out result.Source);
+      converter.Convert(this.Reference, out result.Reference);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class KCCModifierPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.KCCModifierPrototype> {
+    public AssetRef Processor;
+    public Quantum.QuantumEntityPrototype Entity;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.KCCModifierPrototype prototype);
+    public override Quantum.Prototypes.KCCModifierPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.KCCModifierPrototype();
+      converter.Convert(this.Processor, out result.Processor);
+      converter.Convert(this.Entity, out result.Entity);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
 }
 #pragma warning restore 0109
 #pragma warning restore 1591

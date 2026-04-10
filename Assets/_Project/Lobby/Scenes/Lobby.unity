@@ -173,6 +173,9 @@ MonoBehaviour:
   _playerPrototype:
     Id:
       Value: 1351551172419803946
+  _map:
+    Id:
+      Value: 369456407940332635
   _sceneLoader: {fileID: 11400000, guid: 51cfc4fa3158c4f22a69ba28dc692aa0, type: 2}
 --- !u!1 &64795120
 GameObject:

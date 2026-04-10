@@ -11,6 +11,7 @@
             // Add or remove systems to the collection: systems.Add(new SystemFoo());
             systems.Add(new WreckTogether.WreckTimerSystem());
             systems.Add(new WreckTogether.WreckPlayerSystem());
+            systems.Add(new KCCSystem());
         }
     }
 }
