@@ -26,12 +26,14 @@ namespace WreckTogether.Lobby
         private CancellationTokenSource _cancellation;
         private bool _gameStarting;
         private string _nickname;
+        private int _characterIndex;
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
         }
 
+        public int CharacterIndex { get => _characterIndex; set => _characterIndex = value; }
         public bool IsConnected => _client is { IsConnected: true };
         public bool IsInRoom => _client?.CurrentRoom != null;
         public bool IsGameStarting => _gameStarting;
@@ -148,9 +150,10 @@ namespace WreckTogether.Lobby
 
                 _runner = (QuantumRunner)await SessionRunner.StartAsync(sessionArgs);
 
-                // Add local player with nickname
+                // Add local player with nickname and character selection
                 var runtimePlayer = new RuntimePlayer();
                 runtimePlayer.PlayerNickname = _nickname;
+                runtimePlayer.CharacterIndex = _characterIndex;
                 _runner.Game.AddPlayer(0, runtimePlayer);
 
                 Debug.Log("[LobbyConnection] Game started.");

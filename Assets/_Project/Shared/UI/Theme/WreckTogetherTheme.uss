@@ -103,6 +103,42 @@
     color: var(--wt-text-primary);
 }
 
+/* === Character Selection === */
+
+.wt-char-button {
+    align-self: auto;
+    width: 80px;
+    height: auto;
+    margin: 0 4px;
+    padding: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+.wt-char-portrait {
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.wt-char-label {
+    font-size: 10px;
+    color: var(--wt-text-primary);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.wt-char-button--selected {
+    border-color: var(--wt-accent);
+    border-width: 2px;
+    background-color: rgba(255, 170, 0, 0.2);
+}
+
+.wt-char-button--selected .wt-char-label {
+    color: var(--wt-accent);
+}
+
 /* === Inputs === */
 
 .wt-textfield {

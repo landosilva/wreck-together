@@ -269,6 +269,7 @@ MonoBehaviour:
     asset: {fileID: 102900000, guid: 8ab939bb0c29844beb8e69e8b6da4a32, type: 3}
     guid: 8ab939bb0c29844beb8e69e8b6da4a32
   _playerListRefreshInterval: 0.5
+  _characterDatabase: {fileID: 11400000, guid: b53bc8d3c9f244656a1f84931b609ddf, type: 2}
 --- !u!4 &391403772
 Transform:
   m_ObjectHideFlags: 0

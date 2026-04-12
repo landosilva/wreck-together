@@ -16,7 +16,12 @@
             <!-- Room Panel (shown after connecting) -->
             <ui:VisualElement name="room-panel" style="align-items: center; margin-top: 12px; width: 100%; display: none;">
                 <ui:Label text="Players" class="wt-label" style="margin-bottom: 4px;" />
-                <ui:VisualElement name="player-list" style="width: 100%; margin-bottom: 12px;" />
+                <ui:VisualElement name="player-list" style="width: 100%; margin-bottom: 8px;" />
+
+                <!-- Character Selection (populated dynamically from CharacterDatabase) -->
+                <ui:Label text="Character" class="wt-label" style="margin-top: 8px; margin-bottom: 4px;" />
+                <ui:VisualElement name="character-selector" style="flex-direction: row; justify-content: center; margin-bottom: 8px;" />
+
                 <ui:Button name="start-button" text="START GAME" class="wt-button" />
             </ui:VisualElement>
 

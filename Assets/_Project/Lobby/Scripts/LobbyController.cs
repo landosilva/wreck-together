@@ -14,6 +14,7 @@ namespace WreckTogether.Lobby
         [SerializeField] private LobbyConnectionHandler _connectionHandler;
         [SerializeField] private SceneReference _menuScene;
         [SerializeField] private float _playerListRefreshInterval = 0.5f;
+        [SerializeField] private CharacterDatabase _characterDatabase;
 
         private TextField _nicknameField;
         private TextField _roomNameField;
@@ -25,9 +26,12 @@ namespace WreckTogether.Lobby
         private VisualElement _connectPanel;
         private VisualElement _roomPanel;
         private VisualElement _playerList;
+        private VisualElement _characterSelector;
+        private List<Button> _charButtons = new();
 
         private float _nextRefreshTime;
         private int _lastPlayerCount;
+        private int _selectedCharacterIndex;
 
         private void OnEnable()
         {
@@ -46,12 +50,16 @@ namespace WreckTogether.Lobby
             _connectPanel = root.Q<VisualElement>("connect-panel");
             _roomPanel = root.Q<VisualElement>("room-panel");
             _playerList = root.Q<VisualElement>("player-list");
+            _characterSelector = root.Q<VisualElement>("character-selector");
+
+            BuildCharacterSelector();
 
             _createButton.clicked += OnCreateClicked;
             _joinButton.clicked += OnJoinClicked;
             _startButton.clicked += OnStartClicked;
             _backButton.clicked += OnBackClicked;
 
+            SelectCharacter(0);
             ShowConnectPanel();
         }
 
@@ -119,6 +127,58 @@ namespace WreckTogether.Lobby
             foreach (KeyValuePair<int, Photon.Realtime.Player> entry in players)
             {
                 _gameSessionData.ConnectedPlayers.Add(!string.IsNullOrEmpty(entry.Value.NickName) ? entry.Value.NickName : $"Player {entry.Key}");
+            }
+        }
+
+        private void BuildCharacterSelector()
+        {
+            _characterSelector.Clear();
+            _charButtons.Clear();
+
+            var characters = _characterDatabase.GetAll();
+            for (int i = 0; i < characters.Length; i++)
+            {
+                int index = i;
+                var character = characters[i];
+
+                var button = new Button(() => SelectCharacter(index));
+                button.text = null;
+                button.AddToClassList("wt-button");
+                button.AddToClassList("wt-button--secondary");
+                button.AddToClassList("wt-char-button");
+
+                if (character.Portrait != null)
+                {
+                    var portrait = new Image();
+                    portrait.sprite = character.Portrait;
+                    portrait.AddToClassList("wt-char-portrait");
+                    button.Add(portrait);
+                }
+
+                var label = new Label(character.DisplayName);
+                label.AddToClassList("wt-char-label");
+                button.Add(label);
+
+                _characterSelector.Add(button);
+                _charButtons.Add(button);
+            }
+        }
+
+        private void SelectCharacter(int index)
+        {
+            _selectedCharacterIndex = index;
+            _connectionHandler.CharacterIndex = index;
+
+            for (int i = 0; i < _charButtons.Count; i++)
+            {
+                if (i == index)
+                {
+                    _charButtons[i].AddToClassList("wt-char-button--selected");
+                }
+                else
+                {
+                    _charButtons[i].RemoveFromClassList("wt-char-button--selected");
+                }
             }
         }
 
