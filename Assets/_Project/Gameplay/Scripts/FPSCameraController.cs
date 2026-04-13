@@ -3,74 +3,81 @@ namespace WreckTogether.Gameplay
     using Quantum;
     using UnityEngine;
 
+    /// <summary>
+    /// Drives the transform of the first-person camera rig (typically a
+    /// CinemachineCamera) to sit at the local player's <c>EyeAnchor</c> child
+    /// transform, rotated by the locally-predicted yaw/pitch from
+    /// <see cref="GameplayInput"/>.
+    ///
+    /// The eye anchor lives on the Player prefab so its position can be tuned
+    /// per-character in the inspector instead of being derived at runtime.
+    /// </summary>
     public class FPSCameraController : MonoBehaviour
     {
-        [SerializeField] private GameplayInput _input;
-        [SerializeField] private float _eyeOffsetAboveHead = 0.2f;
+        [Tooltip("Name of the child transform on the player prefab that marks the eye position.")]
+        [SerializeField] private string _eyeAnchorName = "EyeAnchor";
 
-        private Transform _target;
-        private Transform _headBone;
+        [SerializeField] private GameplayInput _input;
+
+        private Transform _eyeAnchor;
 
         private void LateUpdate()
         {
-            if (_target == null)
+            if (_eyeAnchor == null)
             {
-                FindLocalPlayer();
-                if (_target == null) return;
-            }
-
-            Vector3 eyePosition;
-            if (_headBone != null)
-            {
-                eyePosition = _headBone.position + Vector3.up * _eyeOffsetAboveHead;
-            }
-            else
-            {
-                eyePosition = _target.position + Vector3.up * 1.4f;
+                FindLocalEyeAnchor();
+                if (_eyeAnchor == null) return;
             }
 
             transform.SetPositionAndRotation(
-                eyePosition,
+                _eyeAnchor.position,
                 Quaternion.Euler(_input.Pitch, _input.Yaw, 0f)
             );
         }
 
-        private void FindLocalPlayer()
+        private void FindLocalEyeAnchor()
         {
             var game = QuantumRunner.Default?.Game;
             if (game == null) return;
 
-            var localPlayers = game.GetLocalPlayers();
-
             var frame = game.Frames.Verified;
             if (frame == null) return;
 
-            foreach (var localPlayer in localPlayers)
+            foreach (var localPlayer in game.GetLocalPlayers())
             {
                 foreach (var pair in frame.GetComponentIterator<WreckPlayerLink>())
                 {
-                    if (pair.Component.PlayerRef == localPlayer)
+                    if (pair.Component.PlayerRef != localPlayer) continue;
+
+                    var viewUpdater = FindAnyObjectByType<QuantumEntityViewUpdater>();
+                    var entityView = viewUpdater?.GetView(pair.Entity);
+                    if (entityView == null) continue;
+
+                    var anchor = FindChildRecursive(entityView.transform, _eyeAnchorName);
+                    if (anchor == null)
                     {
-                        var viewUpdater = FindAnyObjectByType<QuantumEntityViewUpdater>();
-                        var entityView = viewUpdater?.GetView(pair.Entity);
-                        if (entityView != null)
-                        {
-                            _target = entityView.transform;
-                            FindHeadBone();
-                            return;
-                        }
+                        // Not an error on the first few frames: CharacterModelView
+                        // re-parents the anchor onto the head bone during its own
+                        // OnActivate, which may not have run yet.
+                        return;
                     }
+
+                    _eyeAnchor = anchor;
+                    return;
                 }
             }
         }
 
-        private void FindHeadBone()
+        private static Transform FindChildRecursive(Transform parent, string name)
         {
-            var animator = _target.GetComponentInChildren<Animator>();
-            if (animator != null && animator.avatar != null && animator.avatar.isHuman)
+            for (int i = 0; i < parent.childCount; i++)
             {
-                _headBone = animator.GetBoneTransform(HumanBodyBones.Head);
+                var child = parent.GetChild(i);
+                if (child.name == name) return child;
+                var found = FindChildRecursive(child, name);
+                if (found != null) return found;
             }
+            return null;
         }
     }
 }

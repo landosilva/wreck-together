@@ -10,6 +10,9 @@ namespace WreckTogether.Gameplay
         [SerializeField] private RuntimeAnimatorController _animatorController;
         [SerializeField] private float _maxSpeed = 5f;
 
+        [Tooltip("Name of the child transform that marks the eye position. Re-parented to the head bone at spawn so it follows head animation and IK.")]
+        [SerializeField] private string _eyeAnchorName = "EyeAnchor";
+
         private GameObject _modelInstance;
         private Animator _animator;
         private HeadIKHandler _headIK;
@@ -50,6 +53,24 @@ namespace WreckTogether.Gameplay
 
             // Set up Head IK for all players (pitch is networked)
             _headIK = _modelInstance.AddComponent<HeadIKHandler>();
+
+            // Re-parent the EyeAnchor to the head bone so it follows animation
+            // and head-IK rotation. Local offset is taken from the prefab so
+            // designers can tune it without editing code.
+            ReparentEyeAnchorToHead();
+        }
+
+        private void ReparentEyeAnchorToHead()
+        {
+            var anchor = transform.Find(_eyeAnchorName);
+            if (anchor == null) return;
+
+            if (_animator == null || _animator.avatar == null || !_animator.avatar.isHuman) return;
+
+            var head = _animator.GetBoneTransform(HumanBodyBones.Head);
+            if (head == null) return;
+
+            anchor.SetParent(head, worldPositionStays: true);
         }
 
         public override void OnUpdateView()
