@@ -6,9 +6,10 @@ namespace WreckTogether.Gameplay
     public class FPSCameraController : MonoBehaviour
     {
         [SerializeField] private GameplayInput _input;
-        [SerializeField] private float _eyeHeight = 0.8f;
+        [SerializeField] private float _eyeOffsetAboveHead = 0.2f;
 
         private Transform _target;
+        private Transform _headBone;
 
         private void LateUpdate()
         {
@@ -18,9 +19,18 @@ namespace WreckTogether.Gameplay
                 if (_target == null) return;
             }
 
-            var position = _target.position + Vector3.up * _eyeHeight;
+            Vector3 eyePosition;
+            if (_headBone != null)
+            {
+                eyePosition = _headBone.position + Vector3.up * _eyeOffsetAboveHead;
+            }
+            else
+            {
+                eyePosition = _target.position + Vector3.up * 1.4f;
+            }
+
             transform.SetPositionAndRotation(
-                position,
+                eyePosition,
                 Quaternion.Euler(_input.Pitch, _input.Yaw, 0f)
             );
         }
@@ -46,10 +56,20 @@ namespace WreckTogether.Gameplay
                         if (entityView != null)
                         {
                             _target = entityView.transform;
+                            FindHeadBone();
                             return;
                         }
                     }
                 }
+            }
+        }
+
+        private void FindHeadBone()
+        {
+            var animator = _target.GetComponentInChildren<Animator>();
+            if (animator != null && animator.avatar != null && animator.avatar.isHuman)
+            {
+                _headBone = animator.GetBoneTransform(HumanBodyBones.Head);
             }
         }
     }
