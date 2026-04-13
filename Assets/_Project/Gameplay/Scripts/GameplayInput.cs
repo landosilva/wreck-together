@@ -71,6 +71,7 @@ namespace WreckTogether.Gameplay
             );
 
             input.Yaw = FP.FromFloat_UNSAFE(_yaw);
+            input.Pitch = FP.FromFloat_UNSAFE(_pitch * Mathf.Deg2Rad);
 
             callback.SetInput(input, DeterministicInputFlags.Repeatable);
         }
