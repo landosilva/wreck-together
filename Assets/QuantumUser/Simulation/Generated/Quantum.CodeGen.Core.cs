@@ -543,50 +543,52 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 248;
+    public const Int32 SIZE = 256;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(28)]
+    [FieldOffset(36)]
     public Button Left;
-    [FieldOffset(40)]
+    [FieldOffset(48)]
     public Button Right;
-    [FieldOffset(52)]
+    [FieldOffset(60)]
     public Button Up;
-    [FieldOffset(16)]
+    [FieldOffset(24)]
     public Button Fire;
-    [FieldOffset(136)]
+    [FieldOffset(144)]
     public Button _left;
-    [FieldOffset(160)]
+    [FieldOffset(168)]
     public Button _right;
-    [FieldOffset(196)]
+    [FieldOffset(204)]
     public Button _up;
-    [FieldOffset(112)]
+    [FieldOffset(120)]
     public Button _down;
-    [FieldOffset(64)]
+    [FieldOffset(72)]
     public Button _a;
-    [FieldOffset(76)]
+    [FieldOffset(84)]
     public Button _b;
-    [FieldOffset(88)]
+    [FieldOffset(96)]
     public Button _c;
-    [FieldOffset(100)]
+    [FieldOffset(108)]
     public Button _d;
-    [FieldOffset(124)]
+    [FieldOffset(132)]
     public Button _l1;
-    [FieldOffset(148)]
+    [FieldOffset(156)]
     public Button _r1;
-    [FieldOffset(172)]
+    [FieldOffset(180)]
     public Button _select;
-    [FieldOffset(184)]
+    [FieldOffset(192)]
     public Button _start;
     [FieldOffset(1)]
     public Byte _analogRightTrigger;
     [FieldOffset(0)]
     public Byte _analogLeftTrigger;
-    [FieldOffset(224)]
+    [FieldOffset(232)]
     public QuantumThumbSticks ThumbSticks;
-    [FieldOffset(208)]
+    [FieldOffset(216)]
     public FPVector2 Movement;
-    [FieldOffset(8)]
+    [FieldOffset(16)]
     public FP Yaw;
+    [FieldOffset(8)]
+    public FP Pitch;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 19249;
@@ -611,6 +613,7 @@ namespace Quantum {
         hash = hash * 31 + ThumbSticks.GetHashCode();
         hash = hash * 31 + Movement.GetHashCode();
         hash = hash * 31 + Yaw.GetHashCode();
+        hash = hash * 31 + Pitch.GetHashCode();
         return hash;
       }
     }
@@ -663,6 +666,7 @@ namespace Quantum {
         var p = (Input*)ptr;
         serializer.Stream.Serialize(&p->_analogLeftTrigger);
         serializer.Stream.Serialize(&p->_analogRightTrigger);
+        FP.Serialize(&p->Pitch, serializer);
         FP.Serialize(&p->Yaw, serializer);
         Button.Serialize(&p->Fire, serializer);
         Button.Serialize(&p->Left, serializer);
@@ -1121,7 +1125,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 2120;
+    public const Int32 SIZE = 2168;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -1145,18 +1149,18 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(608)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 6)]
-    private fixed Byte _input_[1488];
-    [FieldOffset(2096)]
+    private fixed Byte _input_[1536];
+    [FieldOffset(2144)]
     public BitSet6 PlayerLastConnectionState;
-    [FieldOffset(2104)]
+    [FieldOffset(2152)]
     public Int32 AsteroidsWaveCount;
-    [FieldOffset(2112)]
+    [FieldOffset(2160)]
     public FP MatchTimer;
-    [FieldOffset(2108)]
+    [FieldOffset(2156)]
     public QBoolean MatchOver;
     public readonly FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 248, 6); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 256, 6); }
       }
     }
     public override readonly Int32 GetHashCode() {
@@ -1447,20 +1451,28 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct WreckPlayerLink : Quantum.IComponent {
-    public const Int32 SIZE = 4;
-    public const Int32 ALIGNMENT = 4;
-    [FieldOffset(0)]
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(4)]
     public PlayerRef PlayerRef;
+    [FieldOffset(0)]
+    public Int32 CharacterIndex;
+    [FieldOffset(8)]
+    public FP Pitch;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 14369;
         hash = hash * 31 + PlayerRef.GetHashCode();
+        hash = hash * 31 + CharacterIndex.GetHashCode();
+        hash = hash * 31 + Pitch.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (WreckPlayerLink*)ptr;
+        serializer.Stream.Serialize(&p->CharacterIndex);
         PlayerRef.Serialize(&p->PlayerRef, serializer);
+        FP.Serialize(&p->Pitch, serializer);
     }
   }
   public unsafe partial interface ISignalAsteroidsSpawnShip : ISignal {
@@ -1578,6 +1590,7 @@ namespace Quantum {
       i->ThumbSticks = input.ThumbSticks;
       i->Movement = input.Movement;
       i->Yaw = input.Yaw;
+      i->Pitch = input.Pitch;
     }
     public Input* GetPlayerInput(PlayerRef player) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }

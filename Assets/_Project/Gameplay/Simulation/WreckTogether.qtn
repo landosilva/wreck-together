@@ -1,6 +1,7 @@
 input {
     FPVector2 Movement;
     FP Yaw;
+    FP Pitch;
 }
 
 global {
@@ -10,4 +11,6 @@ global {
 
 component WreckPlayerLink {
     player_ref PlayerRef;
+    Int32 CharacterIndex;
+    FP Pitch;
 }

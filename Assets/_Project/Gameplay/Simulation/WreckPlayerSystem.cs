@@ -37,6 +37,9 @@ namespace Quantum.WreckTogether
 
             // Set look rotation so entity faces the yaw direction
             filter.KCC->SetLookRotation(0, input->Yaw);
+
+            // Store pitch on the entity for view-layer head IK
+            filter.PlayerLink->Pitch = input->Pitch;
         }
 
         public void OnPlayerAdded(Frame f, PlayerRef player, bool firstTime)
@@ -49,7 +52,12 @@ namespace Quantum.WreckTogether
             var prototype = f.FindAsset(prototypeRef);
             var entity = f.Create(prototype);
 
-            f.Set(entity, new WreckPlayerLink { PlayerRef = player });
+            RuntimePlayer data = f.GetPlayerData(player);
+            f.Set(entity, new WreckPlayerLink
+            {
+                PlayerRef = player,
+                CharacterIndex = data.CharacterIndex
+            });
 
             if (f.Unsafe.TryGetPointer<Transform3D>(entity, out var transform))
             {

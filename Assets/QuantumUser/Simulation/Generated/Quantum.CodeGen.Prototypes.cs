@@ -152,6 +152,7 @@ namespace Quantum.Prototypes {
     public Quantum.Prototypes.QuantumThumbSticksPrototype ThumbSticks;
     public FPVector2 Movement;
     public FP Yaw;
+    public FP Pitch;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
         result.Left = this.Left;
@@ -175,6 +176,7 @@ namespace Quantum.Prototypes {
         this.ThumbSticks.Materialize(frame, ref result.ThumbSticks, in context);
         result.Movement = this.Movement;
         result.Yaw = this.Yaw;
+        result.Pitch = this.Pitch;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -451,6 +453,8 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.WreckPlayerLink))]
   public unsafe partial class WreckPlayerLinkPrototype : ComponentPrototype<Quantum.WreckPlayerLink> {
     public PlayerRef PlayerRef;
+    public Int32 CharacterIndex;
+    public FP Pitch;
     partial void MaterializeUser(Frame frame, ref Quantum.WreckPlayerLink result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.WreckPlayerLink component = default;
@@ -459,6 +463,8 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.WreckPlayerLink result, in PrototypeMaterializationContext context = default) {
         result.PlayerRef = this.PlayerRef;
+        result.CharacterIndex = this.CharacterIndex;
+        result.Pitch = this.Pitch;
         MaterializeUser(frame, ref result, in context);
     }
   }

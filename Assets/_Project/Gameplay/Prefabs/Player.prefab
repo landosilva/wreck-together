@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3669726089951104878}
   - component: {fileID: 5137841879666175918}
   - component: {fileID: 7234567890123456789}
+  - component: {fileID: 2257838849289482399}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -32,8 +33,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4134409507948977393}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4165295089281066799
@@ -284,6 +284,7 @@ MonoBehaviour:
   Prototype:
     PlayerRef:
       _index: 0
+    CharacterIndex: 0
 --- !u!114 &5137841879666175918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,65 +332,18 @@ MonoBehaviour:
     Settings:
       Id:
         Value: 385596505887953737
---- !u!1001 &4533689926183992090
-PrefabInstance:
+--- !u!114 &2257838849289482399
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1721186734110103023}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-      propertyPath: m_Name
-      value: Protagonist_A
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
---- !u!4 &4134409507948977393 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7db716230a2b540c185255d2fbf7ce47, type: 3}
-  m_PrefabInstance: {fileID: 4533689926183992090}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460930651595042350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b90fb62a7fb4a7cb79ca8bd7a9623e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.CharacterModelView
+  _characterDatabase: {fileID: 11400000, guid: b53bc8d3c9f244656a1f84931b609ddf, type: 2}
+  _animatorController: {fileID: 9100000, guid: 95a7e465305c74575ad8ff9192388cac, type: 2}
+  _maxSpeed: 5
