@@ -1,7 +1,10 @@
 {
     "name": "WreckTogether.Shared",
     "rootNamespace": "WreckTogether.Shared",
-    "references": [],
+    "references": [
+        "Quantum.Unity",
+        "Quantum.Simulation"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

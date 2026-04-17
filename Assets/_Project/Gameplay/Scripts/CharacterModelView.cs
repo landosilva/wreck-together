@@ -6,11 +6,16 @@ namespace WreckTogether.Gameplay
 
     public class CharacterModelView : QuantumEntityViewComponent
     {
+        [Tooltip("Database of available characters, indexed by the player's selection.")]
         [SerializeField] private CharacterDatabase _characterDatabase;
+
+        [Tooltip("Controller assigned to the spawned model's Animator.")]
         [SerializeField] private RuntimeAnimatorController _animatorController;
+
+        [Tooltip("Maximum movement speed used to normalize the Speed animator parameter.")]
         [SerializeField] private float _maxSpeed = 5f;
 
-        [Tooltip("Name of the child transform that marks the eye position. Re-parented to the head bone at spawn so it follows head animation and IK.")]
+        [Tooltip("Child transform re-parented to the head bone at spawn so it tracks head animation and IK.")]
         [SerializeField] private string _eyeAnchorName = "EyeAnchor";
 
         private GameObject _modelInstance;
@@ -26,9 +31,7 @@ namespace WreckTogether.Gameplay
             if (!frame.TryGet<WreckPlayerLink>(EntityRef, out var playerLink))
                 return;
 
-            var characterIndex = playerLink.CharacterIndex;
-            var character = _characterDatabase.Get(characterIndex);
-
+            var character = _characterDatabase.Get(playerLink.CharacterIndex);
             if (character.ModelPrefab == null)
             {
                 Debug.LogWarning($"[CharacterModelView] Character '{character.DisplayName}' has no model prefab.");
@@ -39,24 +42,16 @@ namespace WreckTogether.Gameplay
             _modelInstance.transform.localPosition = Vector3.zero;
             _modelInstance.transform.localRotation = Quaternion.identity;
 
-            // Set up Animator
             if (_animatorController != null)
             {
                 _animator = _modelInstance.GetComponent<Animator>();
                 if (_animator == null)
-                {
                     _animator = _modelInstance.AddComponent<Animator>();
-                }
 
                 _animator.runtimeAnimatorController = _animatorController;
             }
 
-            // Set up Head IK for all players (pitch is networked)
             _headIK = _modelInstance.AddComponent<HeadIKHandler>();
-
-            // Re-parent the EyeAnchor to the head bone so it follows animation
-            // and head-IK rotation. Local offset is taken from the prefab so
-            // designers can tune it without editing code.
             ReparentEyeAnchorToHead();
         }
 
@@ -64,7 +59,6 @@ namespace WreckTogether.Gameplay
         {
             var anchor = transform.Find(_eyeAnchorName);
             if (anchor == null) return;
-
             if (_animator == null || _animator.avatar == null || !_animator.avatar.isHuman) return;
 
             var head = _animator.GetBoneTransform(HumanBodyBones.Head);
@@ -78,18 +72,14 @@ namespace WreckTogether.Gameplay
             var frame = PredictedFrame;
             if (frame == null) return;
 
-            // Drive animator parameters from KCC
             if (_animator != null && frame.TryGet<KCC>(EntityRef, out var kcc))
             {
-                var realSpeed = kcc.Data.RealSpeed.AsFloat;
-                var normalizedSpeed = Mathf.Clamp01(realSpeed / _maxSpeed);
-
+                var normalizedSpeed = Mathf.Clamp01(kcc.Data.RealSpeed.AsFloat / _maxSpeed);
                 _animator.SetFloat(SpeedHash, normalizedSpeed, 0.1f, Time.deltaTime);
                 _animator.SetBool(IsGroundedHash, kcc.Data.IsGrounded);
                 _animator.SetFloat(VerticalSpeedHash, kcc.Data.RealVelocity.Y.AsFloat);
             }
 
-            // Drive head IK from networked pitch
             if (_headIK != null && frame.TryGet<WreckPlayerLink>(EntityRef, out var link))
             {
                 var pitchDegrees = link.Pitch.AsFloat * Mathf.Rad2Deg;

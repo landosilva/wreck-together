@@ -166,17 +166,10 @@ MonoBehaviour:
   _gameplayScene:
     asset: {fileID: 102900000, guid: 57862717ec7414a948fd85b7ba19bb97, type: 3}
     guid: 57862717ec7414a948fd85b7ba19bb97
-  _maxPlayers: 4
-  _wreckGameConfig:
-    Id:
-      Value: 416535780097000690
-  _playerPrototype:
-    Id:
-      Value: 1351551172419803946
-  _map:
-    Id:
-      Value: 369456407940332635
+  _network: {fileID: 11400000, guid: 806130b54fec74dc0b062d1c634705cb, type: 2}
+  _sessionAssets: {fileID: 11400000, guid: 33421b2d351724c61802313118179f3d, type: 2}
   _sceneLoader: {fileID: 11400000, guid: 51cfc4fa3158c4f22a69ba28dc692aa0, type: 2}
+  _gameStartedKey: started
 --- !u!1 &64795120
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,12 +256,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: WreckTogether.Lobby::WreckTogether.Lobby.LobbyController
   _uiDocument: {fileID: 64795121}
   _sceneLoader: {fileID: 11400000, guid: 51cfc4fa3158c4f22a69ba28dc692aa0, type: 2}
-  _gameSessionData: {fileID: 11400000, guid: 65b1790ea82164d618185326e71611c7, type: 2}
   _connectionHandler: {fileID: 36067841}
   _menuScene:
     asset: {fileID: 102900000, guid: 8ab939bb0c29844beb8e69e8b6da4a32, type: 3}
     guid: 8ab939bb0c29844beb8e69e8b6da4a32
-  _playerListRefreshInterval: 0.5
+  _network: {fileID: 11400000, guid: 806130b54fec74dc0b062d1c634705cb, type: 2}
   _characterDatabase: {fileID: 11400000, guid: b53bc8d3c9f244656a1f84931b609ddf, type: 2}
 --- !u!4 &391403772
 Transform:

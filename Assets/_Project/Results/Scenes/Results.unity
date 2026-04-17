@@ -150,7 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: WreckTogether.Results::WreckTogether.Results.ResultsController
   _uiDocument: {fileID: 1225631189}
   _sceneLoader: {fileID: 11400000, guid: 51cfc4fa3158c4f22a69ba28dc692aa0, type: 2}
-  _gameSessionData: {fileID: 11400000, guid: 65b1790ea82164d618185326e71611c7, type: 2}
   _lobbyScene:
     asset: {fileID: 102900000, guid: 1ca1491aa3ccb43a982b033e6c658f6a, type: 3}
     guid: 1ca1491aa3ccb43a982b033e6c658f6a
@@ -242,8 +241,8 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1

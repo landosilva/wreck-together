@@ -7,8 +7,13 @@ namespace WreckTogether.Menu
 
     public class MenuController : MonoBehaviour
     {
+        [Tooltip("UI Document containing menu buttons and settings overlay.")]
         [SerializeField] private UIDocument _uiDocument;
+
+        [Tooltip("Handles scene transitions with fade.")]
         [SerializeField] private SceneLoader _sceneLoader;
+
+        [Tooltip("Scene loaded when the player presses Play.")]
         [SerializeField] private SceneReference _lobbyScene;
 
         private Button _playButton;

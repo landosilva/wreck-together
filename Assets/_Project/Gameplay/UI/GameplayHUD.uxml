@@ -1,6 +1,33 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <Style src="project://database/Assets/_Project/Shared/UI/Theme/WreckTogetherTheme.uss" />
+
+    <!-- HUD root: timer at top -->
     <ui:VisualElement style="flex-grow: 1; align-items: center; padding-top: 24px;">
-        <ui:Label name="timer-label" text="30" class="wt-timer" />
+        <ui:Label name="timer-label" text="5:00" class="wt-timer" />
+    </ui:VisualElement>
+
+    <!-- Pause / Settings overlay (hidden by default; toggled by ESC) -->
+    <ui:VisualElement name="pause-overlay" class="wt-overlay" style="display: none;">
+        <ui:VisualElement class="wt-panel">
+            <ui:Label text="PAUSED" class="wt-title" />
+
+            <ui:Label text="Mouse" class="wt-label" style="margin-top: 12px;" />
+            <ui:Slider name="sensitivity-slider" label="Sensitivity"
+                       low-value="0.01" high-value="1" value="0.15" class="wt-slider" />
+            <ui:Toggle name="invert-y-toggle" label="Invert Y" class="wt-toggle" />
+            <ui:Toggle name="fov-scale-toggle" label="Scale sens. with FOV" class="wt-toggle" />
+
+            <ui:Label text="Gamepad" class="wt-label" style="margin-top: 12px;" />
+            <ui:Slider name="gamepad-sens-slider" label="Look Speed"
+                       low-value="30" high-value="360" value="120" class="wt-slider" />
+
+            <ui:Label text="Audio" class="wt-label" style="margin-top: 12px;" />
+            <ui:Slider name="volume-slider" label="Master Volume"
+                       low-value="0" high-value="1" value="1" class="wt-slider" />
+
+            <ui:Button name="resume-button" text="RESUME" class="wt-button" style="margin-top: 16px;" />
+            <ui:Button name="quit-to-menu-button" text="QUIT TO MENU" class="wt-button wt-button--secondary" />
+            <ui:Button name="quit-game-button" text="QUIT GAME" class="wt-button wt-button--secondary" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -71,7 +71,7 @@ MonoBehaviour:
       X:
         RawValue: 3276800
       Y:
-        RawValue: 32768
+        RawValue: 32735
       Z:
         RawValue: 3276800
     SmoothSphereMeshCollisions: 0

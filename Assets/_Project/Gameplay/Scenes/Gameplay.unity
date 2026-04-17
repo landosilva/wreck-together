@@ -200,8 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0d4dc5b50ba4a029c12ea087ba37ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.GameplayInput
-  _mouseSensitivity: 0.15
-  _gamepadLookSensitivity: 120
+  _input: {fileID: 11400000, guid: 2c1b4d5a353004fe185017fe306a0a74, type: 2}
 --- !u!4 &189922210
 Transform:
   m_ObjectHideFlags: 0
@@ -272,6 +271,128 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &448216035
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Universal Render Pipeline/Lit
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &903156961
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,8 +403,11 @@ GameObject:
   m_Component:
   - component: {fileID: 903156962}
   - component: {fileID: 903156963}
+  - component: {fileID: 903156964}
+  - component: {fileID: 903156965}
+  - component: {fileID: 903156966}
   m_Layer: 0
-  m_Name: GameplayController
+  m_Name: MatchScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -313,15 +437,62 @@ MonoBehaviour:
   m_GameObject: {fileID: 903156961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04f578d53904d4b03bfc91fe943a5149, type: 3}
+  m_Script: {fileID: 11500000, guid: 60fd9e893094a4085bbfce337a1ca91d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.GameplayController
+  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.MatchFlow
   _uiDocument: {fileID: 420066317}
   _sceneLoader: {fileID: 11400000, guid: 51cfc4fa3158c4f22a69ba28dc692aa0, type: 2}
-  _gameSessionData: {fileID: 11400000, guid: 65b1790ea82164d618185326e71611c7, type: 2}
   _resultsScene:
     asset: {fileID: 102900000, guid: d49f9b92e9c704c89ac17a4b19c0cc45, type: 3}
     guid: d49f9b92e9c704c89ac17a4b19c0cc45
+  _match: {fileID: 11400000, guid: 2b5d3dd85cc634f27833c306f8fc5670, type: 2}
+  _performance: {fileID: 11400000, guid: ac530f096c78242a9803f61ab845e5d6, type: 2}
+--- !u!114 &903156964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903156961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528be39680ed04a95a6ab36cb640517b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.PauseMenu
+  _uiDocument: {fileID: 420066317}
+  _input: {fileID: 189922208}
+  _sceneLoader: {fileID: 11400000, guid: 51cfc4fa3158c4f22a69ba28dc692aa0, type: 2}
+  _menuScene:
+    asset: {fileID: 102900000, guid: 8ab939bb0c29844beb8e69e8b6da4a32, type: 3}
+    guid: 8ab939bb0c29844beb8e69e8b6da4a32
+--- !u!114 &903156965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903156961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab5c15569a584a0082489e899797b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.SettingsPanel
+  _uiDocument: {fileID: 420066317}
+--- !u!114 &903156966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903156961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6be2f0743204f668058d251387f32f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.SessionBootstrap
+  _sessionAssets: {fileID: 11400000, guid: 33421b2d351724c61802313118179f3d, type: 2}
+  _offlineCharacterIndex: 0
+  _offlineNickname: Player
 --- !u!1 &1478465140
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,9 +533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 777a21dc1f6ff4c91a8a03d94e057f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WreckTogether.Gameplay::WreckTogether.Gameplay.FPSCameraController
-  _localBodyLayerName: LocalPlayerBody
   _input: {fileID: 189922208}
-  _eyeOffsetAboveHead: 0.2
+  _cinemachineCamera: {fileID: 0}
+  _eyeAnchorName: EyeAnchor
 --- !u!114 &1478465143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,94 +610,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1478465140}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1526701895
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1526701897}
-  - component: {fileID: 1526701896}
-  m_Layer: 0
-  m_Name: QuantumDebugRunner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1526701896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526701895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba1cef2e59fba6443b0b8a032263be28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Quantum.Unity::Quantum.QuantumRunnerLocalDebug
-  DeltaTimeType: 1
-  RecordingFlags: 0
-  InstantReplayConfig:
-    SnapshotsPerSecond: 1
-    LengthSeconds:
-      RawValue: 196608
-  RuntimeConfig:
-    Seed: 0
-    Map:
-      Id:
-        Value: 346250022863685641
-    SimulationConfig:
-      Id:
-        Value: 3439908003072589434
-    SystemsConfig:
-      Id:
-        Value: 2175848563315293487
-    GameConfig:
-      Id:
-        Value: 0
-    DefaultPlayerAvatar:
-      Id:
-        Value: 0
-    WreckGameConfig:
-      Id:
-        Value: 0
-    WreckPlayerPrototype:
-      Id:
-        Value: 0
-  UseRandomSeed: 0
-  SessionConfig: {fileID: 0}
-  LocalPlayers: []
-  MaxPlayerCount: 0
-  SimulationSpeedMultiplier: 1
-  DisplaySaveAndReloadButton: 0
-  PreloadAddressables: 0
-  DynamicAssetDB:
-    OnInitialDynamicAssetsRequested:
-      m_PersistentCalls:
-        m_Calls: []
-    IsLegacyModeEnabled: 0
-  OnBeforeStart:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!4 &1526701897
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526701895}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -943,7 +1026,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9452ae1262a74094f8a68013fbcd1834, type: 2}
+  - {fileID: 448216035}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1007,7 +1090,7 @@ MonoBehaviour:
     X:
       RawValue: 65536
     Y:
-      RawValue: 65536
+      RawValue: 65470
     Z:
       RawValue: 65536
   PositionOffset:
@@ -1044,7 +1127,6 @@ SceneRoots:
   - {fileID: 1866882893}
   - {fileID: 1880973066}
   - {fileID: 43009523}
-  - {fileID: 1526701897}
   - {fileID: 1666008498}
   - {fileID: 1615269407}
   - {fileID: 1478465145}

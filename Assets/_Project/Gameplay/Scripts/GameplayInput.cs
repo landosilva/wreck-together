@@ -4,22 +4,33 @@ namespace WreckTogether.Gameplay
     using Quantum;
     using UnityEngine;
     using UnityEngine.InputSystem;
+    using WreckTogether.Shared;
+    using WreckTogether.Tuning;
 
     public class GameplayInput : MonoBehaviour
     {
-        [SerializeField] private float _mouseSensitivity = 0.15f;
-        [SerializeField] private float _gamepadLookSensitivity = 120f;
+        [Tooltip("Look-related tuning (pitch clamp, default sensitivities, base FOV).")]
+        [SerializeField] private InputTuning _input;
 
         private PlayerInputActions _inputActions;
         private float _yaw;
         private float _pitch;
+        private bool _lookEnabled = true;
 
         public float Yaw => _yaw;
         public float Pitch => _pitch;
+        public float CurrentLookFOV { get; set; }
+
+        public bool LookEnabled
+        {
+            get => _lookEnabled;
+            set { _lookEnabled = value; ApplyCursorState(); }
+        }
 
         private void Awake()
         {
             _inputActions = new PlayerInputActions();
+            CurrentLookFOV = _input.BaseFOV;
         }
 
         private void OnEnable()
@@ -27,10 +38,9 @@ namespace WreckTogether.Gameplay
             _inputActions.Player.Enable();
             _yaw = 0f;
             _pitch = 0f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            InputSystem.settings.backgroundBehavior = UnityEngine.InputSystem.InputSettings.BackgroundBehavior.IgnoreFocus;
-            QuantumCallback.Subscribe(this, (CallbackPollInput callback) => OnPollInput(callback));
+            ApplyCursorState();
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+            QuantumCallback.Subscribe(this, (CallbackPollInput cb) => OnPollInput(cb));
         }
 
         private void OnDisable()
@@ -40,45 +50,64 @@ namespace WreckTogether.Gameplay
             Cursor.visible = true;
         }
 
+        private void OnDestroy() => _inputActions?.Dispose();
+
         private void Update()
         {
-            var lookDelta = _inputActions.Player.Look.ReadValue<Vector2>();
+            if (!_lookEnabled) return;
 
-
-            var activeControl = _inputActions.Player.Look.activeControl;
-            if (activeControl != null && activeControl.device is Gamepad)
-            {
-                _yaw += lookDelta.x * _gamepadLookSensitivity * Time.deltaTime;
-                _pitch -= lookDelta.y * _gamepadLookSensitivity * Time.deltaTime;
-            }
+            var delta = _inputActions.Player.Look.ReadValue<Vector2>();
+            if (IsGamepadActive())
+                AccumulateGamepadLook(delta);
             else
-            {
-                _yaw += lookDelta.x * _mouseSensitivity;
-                _pitch -= lookDelta.y * _mouseSensitivity;
-            }
+                AccumulateMouseLook(delta);
 
-            _pitch = Mathf.Clamp(_pitch, -89f, 89f);
+            _pitch = Mathf.Clamp(_pitch, -_input.MaxPitchDegrees, _input.MaxPitchDegrees);
+        }
+
+        private void AccumulateMouseLook(Vector2 delta)
+        {
+            // Mouse.delta is accumulated per-poll — no Time.deltaTime needed
+            var fovScale = PlayerSettings.ScaleSensitivityWithFOV
+                ? LookSensitivity.FovScale(CurrentLookFOV, _input.BaseFOV)
+                : 1f;
+            var sens = PlayerSettings.MouseDegreesPerCount * LookSensitivity.DpiScale() * fovScale;
+
+            _yaw   += delta.x * sens;
+            _pitch += delta.y * sens * PitchSign();
+        }
+
+        private void AccumulateGamepadLook(Vector2 delta)
+        {
+            var sens = PlayerSettings.GamepadLookSensitivity * Time.deltaTime;
+            _yaw   += delta.x * sens;
+            _pitch += delta.y * sens * PitchSign();
+        }
+
+        private static float PitchSign() => PlayerSettings.InvertMouseY ? 1f : -1f;
+
+        private bool IsGamepadActive()
+        {
+            var control = _inputActions.Player.Look.activeControl;
+            return control != null && control.device is Gamepad;
         }
 
         private void OnPollInput(CallbackPollInput callback)
         {
-            var input = new Quantum.Input();
-
             var move = _inputActions.Player.Move.ReadValue<Vector2>();
-            input.Movement = new FPVector2(
-                FP.FromFloat_UNSAFE(move.x),
-                FP.FromFloat_UNSAFE(move.y)
-            );
-
-            input.Yaw = FP.FromFloat_UNSAFE(_yaw);
-            input.Pitch = FP.FromFloat_UNSAFE(_pitch * Mathf.Deg2Rad);
-
+            var input = new Quantum.Input
+            {
+                Movement = new FPVector2(FP.FromFloat_UNSAFE(move.x), FP.FromFloat_UNSAFE(move.y)),
+                Yaw      = FP.FromFloat_UNSAFE(_yaw),
+                Pitch    = FP.FromFloat_UNSAFE(_pitch * Mathf.Deg2Rad),
+            };
             callback.SetInput(input, DeterministicInputFlags.Repeatable);
         }
 
-        private void OnDestroy()
+        private void ApplyCursorState()
         {
-            _inputActions?.Dispose();
+            Cursor.lockState = _lookEnabled ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.visible   = !_lookEnabled;
         }
     }
 }

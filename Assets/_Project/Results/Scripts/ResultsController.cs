@@ -7,10 +7,16 @@ namespace WreckTogether.Results
 
     public class ResultsController : MonoBehaviour
     {
+        [Tooltip("UI Document containing result labels and navigation buttons.")]
         [SerializeField] private UIDocument _uiDocument;
+
+        [Tooltip("Handles scene transitions with fade.")]
         [SerializeField] private SceneLoader _sceneLoader;
-        [SerializeField] private GameSessionData _gameSessionData;
+
+        [Tooltip("Scene loaded when the player chooses to replay.")]
         [SerializeField] private SceneReference _lobbyScene;
+
+        [Tooltip("Scene loaded when the player returns to main menu.")]
         [SerializeField] private SceneReference _menuScene;
 
         private Button _replayButton;
@@ -26,7 +32,7 @@ namespace WreckTogether.Results
             _menuButton = root.Q<Button>("menu-button");
 
             resultLabel.text = "Time's Up!";
-            scoreLabel.text = $"Score: {_gameSessionData.FinalScore}";
+            scoreLabel.text = $"Score: {GameSession.FinalScore}";
 
             _replayButton.clicked += OnReplayClicked;
             _menuButton.clicked += OnMenuClicked;
@@ -49,7 +55,7 @@ namespace WreckTogether.Results
         {
             _replayButton.SetEnabled(false);
             _menuButton.SetEnabled(false);
-            _gameSessionData.Clear();
+            GameSession.Clear();
             await _sceneLoader.LoadSceneAsync(_menuScene.Name);
         }
     }

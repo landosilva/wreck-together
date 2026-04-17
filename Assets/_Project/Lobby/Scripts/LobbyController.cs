@@ -5,15 +5,26 @@ namespace WreckTogether.Lobby
     using UnityEngine;
     using UnityEngine.UIElements;
     using WreckTogether.Shared;
+    using WreckTogether.Tuning;
 
     public class LobbyController : MonoBehaviour
     {
+        [Tooltip("UI Document containing lobby panels and buttons.")]
         [SerializeField] private UIDocument _uiDocument;
+
+        [Tooltip("Handles scene transitions with fade.")]
         [SerializeField] private SceneLoader _sceneLoader;
-        [SerializeField] private GameSessionData _gameSessionData;
+
+        [Tooltip("Manages Photon connection, room creation, and Quantum session startup.")]
         [SerializeField] private LobbyConnectionHandler _connectionHandler;
+
+        [Tooltip("Scene loaded when the player presses Back.")]
         [SerializeField] private SceneReference _menuScene;
-        [SerializeField] private float _playerListRefreshInterval = 0.5f;
+
+        [Tooltip("Max players and player-list refresh interval.")]
+        [SerializeField] private NetworkTuning _network;
+
+        [Tooltip("Database of selectable characters shown in the lobby.")]
         [SerializeField] private CharacterDatabase _characterDatabase;
 
         private TextField _nicknameField;
@@ -39,8 +50,6 @@ namespace WreckTogether.Lobby
 
             _nicknameField = root.Q<TextField>("nickname-field");
             _roomNameField = root.Q<TextField>("room-name-field");
-
-            // Restore saved nickname
             _nicknameField.value = PlayerPrefs.GetString("PlayerNickname", "");
             _createButton = root.Q<Button>("create-button");
             _joinButton = root.Q<Button>("join-button");
@@ -76,7 +85,7 @@ namespace WreckTogether.Lobby
             if (!_connectionHandler.IsInRoom) return;
             if (Time.time < _nextRefreshTime) return;
 
-            _nextRefreshTime = Time.time + _playerListRefreshInterval;
+            _nextRefreshTime = Time.time + _network.PlayerListRefreshIntervalSeconds;
             RefreshPlayerList();
         }
 
@@ -94,8 +103,8 @@ namespace WreckTogether.Lobby
             _roomPanel.style.display = DisplayStyle.Flex;
             _statusLabel.text = $"Room: {_connectionHandler.RoomName}";
 
-            _gameSessionData.IsConnected = true;
-            _gameSessionData.RoomName = _connectionHandler.RoomName;
+            GameSession.IsConnected = true;
+            GameSession.RoomName = _connectionHandler.RoomName;
 
             _lastPlayerCount = 0;
             RefreshPlayerList();
@@ -103,8 +112,7 @@ namespace WreckTogether.Lobby
 
         private void RefreshPlayerList()
         {
-            var client = _connectionHandler.Client;
-            var room = client?.CurrentRoom;
+            var room = _connectionHandler.Client?.CurrentRoom;
             if (room == null) return;
 
             var players = room.Players;
@@ -112,22 +120,28 @@ namespace WreckTogether.Lobby
 
             _lastPlayerCount = players.Count;
             _playerList.Clear();
+            GameSession.ConnectedPlayers.Clear();
 
             foreach (KeyValuePair<int, Photon.Realtime.Player> kvp in players)
             {
-                var player = kvp.Value;
-                var displayName = !string.IsNullOrEmpty(player.NickName) ? player.NickName : $"Player {kvp.Key}";
-                var label = new Label(displayName);
-                label.AddToClassList("wt-player-item");
-                _playerList.Add(label);
+                var displayName = DisplayNameOf(kvp);
+                _playerList.Add(CreatePlayerLabel(displayName));
+                GameSession.ConnectedPlayers.Add(displayName);
             }
 
             _statusLabel.text = $"Room: {_connectionHandler.RoomName} ({players.Count} player{(players.Count != 1 ? "s" : "")})";
-            _gameSessionData.ConnectedPlayers.Clear();
-            foreach (KeyValuePair<int, Photon.Realtime.Player> entry in players)
-            {
-                _gameSessionData.ConnectedPlayers.Add(!string.IsNullOrEmpty(entry.Value.NickName) ? entry.Value.NickName : $"Player {entry.Key}");
-            }
+        }
+
+        private static string DisplayNameOf(KeyValuePair<int, Photon.Realtime.Player> kvp)
+        {
+            return !string.IsNullOrEmpty(kvp.Value.NickName) ? kvp.Value.NickName : $"Player {kvp.Key}";
+        }
+
+        private static Label CreatePlayerLabel(string displayName)
+        {
+            var label = new Label(displayName);
+            label.AddToClassList("wt-player-item");
+            return label;
         }
 
         private void BuildCharacterSelector()
@@ -172,13 +186,9 @@ namespace WreckTogether.Lobby
             for (int i = 0; i < _charButtons.Count; i++)
             {
                 if (i == index)
-                {
                     _charButtons[i].AddToClassList("wt-char-button--selected");
-                }
                 else
-                {
                     _charButtons[i].RemoveFromClassList("wt-char-button--selected");
-                }
             }
         }
 
@@ -221,7 +231,7 @@ namespace WreckTogether.Lobby
             var success = await _connectionHandler.ConnectToRoomAsync(roomName, creating: true, nickname);
             if (success)
             {
-                _gameSessionData.IsHost = true;
+                GameSession.IsHost = true;
                 ShowRoomPanel();
             }
             else
@@ -250,7 +260,7 @@ namespace WreckTogether.Lobby
             var success = await _connectionHandler.ConnectToRoomAsync(roomName, creating: false, nickname);
             if (success)
             {
-                _gameSessionData.IsHost = false;
+                GameSession.IsHost = false;
                 ShowRoomPanel();
             }
             else
@@ -271,8 +281,6 @@ namespace WreckTogether.Lobby
                 _statusLabel.text = "Failed to start game.";
                 SetButtonsEnabled(true);
             }
-            // All clients (including host) will detect the room property
-            // and start via LobbyConnectionHandler.CheckForGameStart()
         }
 
         private async void OnBackClicked()
@@ -281,7 +289,7 @@ namespace WreckTogether.Lobby
             _statusLabel.text = "Disconnecting...";
 
             await _connectionHandler.DisconnectAsync();
-            _gameSessionData.Clear();
+            GameSession.Clear();
 
             await _sceneLoader.LoadSceneAsync(_menuScene.Name);
         }

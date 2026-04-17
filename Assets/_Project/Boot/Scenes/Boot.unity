@@ -204,8 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: WreckTogether.Boot::WreckTogether.Boot.BootController
   _sceneLoader: {fileID: 11400000, guid: 51cfc4fa3158c4f22a69ba28dc692aa0, type: 2}
-  _gameSessionData: {fileID: 11400000, guid: 65b1790ea82164d618185326e71611c7, type: 2}
-  _splashDuration: 2
+  _match: {fileID: 11400000, guid: 2b5d3dd85cc634f27833c306f8fc5670, type: 2}
+  _performance: {fileID: 11400000, guid: ac530f096c78242a9803f61ab845e5d6, type: 2}
   _bootScene:
     asset: {fileID: 102900000, guid: e125a1ee64ea840b3a7253e68f9192b0, type: 3}
     guid: e125a1ee64ea840b3a7253e68f9192b0
