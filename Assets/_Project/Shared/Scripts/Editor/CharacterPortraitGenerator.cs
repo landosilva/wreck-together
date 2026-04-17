@@ -9,7 +9,7 @@ namespace WreckTogether.Shared.Editor
         private const int PortraitSize = 256;
         private const string OutputFolder = "Assets/_Project/Shared/Data/Characters/Portraits";
 
-        [MenuItem("WreckTogether/Generate Character Portraits")]
+        [MenuItem("Wreck Together/Generate Character Portraits")]
         public static void GenerateAll()
         {
             var guids = AssetDatabase.FindAssets("t:CharacterDatabase");
@@ -49,13 +49,13 @@ namespace WreckTogether.Shared.Editor
             Debug.Log($"[PortraitGen] Generated {generated} portrait(s).");
         }
 
-        [MenuItem("Assets/WreckTogether/Generate Portrait", true)]
+        [MenuItem("Assets/Wreck Together/Generate Portrait", true)]
         private static bool GenerateSingleValidate()
         {
             return Selection.activeObject is CharacterDefinition;
         }
 
-        [MenuItem("Assets/WreckTogether/Generate Portrait")]
+        [MenuItem("Assets/Wreck Together/Generate Portrait")]
         public static void GenerateSingle()
         {
             if (Selection.activeObject is not CharacterDefinition character)
