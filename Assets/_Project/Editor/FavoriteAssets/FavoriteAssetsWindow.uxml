@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="root" class="favs-root">
+        <ui:ScrollView name="list-scroll" class="favs-list-scroll">
+            <ui:VisualElement name="list" class="favs-list" />
+            <ui:Label name="empty-state" text="Drag assets here to add to favorites" class="favs-empty" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>
