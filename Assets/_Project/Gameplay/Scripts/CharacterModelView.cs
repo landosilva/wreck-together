@@ -83,7 +83,7 @@ namespace WreckTogether.Gameplay
             if (_headIK != null && frame.TryGet<WreckPlayerLink>(EntityRef, out var link))
             {
                 var pitchDegrees = link.Pitch.AsFloat * Mathf.Rad2Deg;
-                _headIK.LookPitch = Mathf.Clamp(pitchDegrees, -60f, 60f);
+                _headIK.LookPitch = pitchDegrees;
             }
         }
 
