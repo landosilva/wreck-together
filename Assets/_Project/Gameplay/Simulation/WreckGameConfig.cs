@@ -4,7 +4,7 @@ namespace Quantum.WreckTogether
 
     public class WreckGameConfig : AssetObject
     {
-        public FP MatchDuration = 30;
+        public FP MatchDuration = 300;
         public FP PlayerMoveSpeed = 5;
         public AssetRef<EntityPrototype> PlayerPrototype;
     }
