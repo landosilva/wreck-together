@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:TwoPaneSplitView name="split" orientation="Horizontal"
+                         fixed-pane-index="0" fixed-pane-initial-dimension="320">
+        <ui:VisualElement name="sidebar" class="tuning-sidebar">
+            <ui:VisualElement class="tuning-toolbar">
+                <ui:Label text="Tuning Hub" class="tuning-toolbar-title" />
+                <ui:Button name="hidden-toggle" class="tuning-icon-button" />
+                <ui:Button name="refresh-button" class="tuning-icon-button"
+                           tooltip="Rescan ScriptableObjects under Assets/_Project" />
+            </ui:VisualElement>
+            <ui:ScrollView name="tree-scroll" class="tuning-tree-scroll">
+                <ui:VisualElement name="tree" class="tuning-tree" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="inspector-pane" class="tuning-inspector-pane">
+            <ui:Label name="inspector-title" text="Select an asset" class="tuning-inspector-title" />
+            <ui:ScrollView name="inspector-scroll" class="tuning-inspector-scroll">
+                <ui:IMGUIContainer name="inspector-imgui" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+    </ui:TwoPaneSplitView>
+</ui:UXML>
